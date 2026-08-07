@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0E1013;
+  --color-surface: #171A1F;
+  --color-white: #F3F1EC;
+  --color-gray: #8C939D;
+  --color-titanium: #C7CDD6;
+  --color-champagne: #D6C3A3;
+}
+
+:root {
+  --bg: #0E1013;
+  --surface: #171A1F;
+  --white: #F3F1EC;
+  --gray: #8C939D;
+  --titanium: #C7CDD6;
+  --champagne: #D6C3A3;
+}
+
+html {
+  background-color: #0E1013;
+  color: #F3F1EC;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: #0E1013;
+  color: #8C939D;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Typography helper classes matching design tokens */
+.font-mono {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+}
+
+.font-sans {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+}
+
+.mono-eyebrow {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #C7CDD6;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.hero-h1 {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #F3F1EC;
+  margin-bottom: 24px;
+}
+
+.section-h2 {
+  font-family: var(--font-sans), 'Inter', sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #F3F1EC;
+  margin-bottom: 24px;
+  max-width: 24ch;
+}
+
+.body-text {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #8C939D;
+  max-width: 68ch;
+}
+
+/* Scroll Animation Utilities */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
