@@ -1,8 +1,14 @@
+'use client';
+
+import { useI18n } from '../lib/i18n';
+
 export default function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer className="py-20 md:py-[120px] pb-16 bg-[#0E1013]">
       <div className="max-w-[1200px] mx-auto px-6">
-        <span className="mono-eyebrow mb-6">CONTACT</span>
+        <span className="mono-eyebrow mb-6">{t('footer.eyebrow')}</span>
         <div className="mb-[80px]">
           <a
             href="mailto:founding@basx.space"
@@ -25,29 +31,29 @@ export default function Footer() {
               <span>BASX</span>
             </div>
             <span className="text-[14px] text-[#8C939D]">
-              Thermal infrastructure for extreme computing
+              {t('footer.tagline')}
             </span>
           </div>
 
           <div className="flex gap-6 text-[14px] text-[#8C939D]">
             <a href="#hero" className="hover:text-[#F3F1EC] transition-colors">
-              Physics
+              {t('nav.physics')}
             </a>
             <a href="#markets" className="hover:text-[#F3F1EC] transition-colors">
-              Markets
+              {t('nav.markets')}
             </a>
             <a href="#approach" className="hover:text-[#F3F1EC] transition-colors">
-              Approach
+              {t('nav.approach')}
             </a>
             <a href="#careers" className="hover:text-[#F3F1EC] transition-colors">
-              Careers
+              {t('nav.careers')}
             </a>
           </div>
         </div>
 
         <div className="mt-8 flex justify-between items-center text-[12px] text-[#8C939D]">
           <span>© 2026 BASX</span>
-          <span>Engineered in Brazil</span>
+          <span>{t('footer.engineered')}</span>
         </div>
       </div>
     </footer>

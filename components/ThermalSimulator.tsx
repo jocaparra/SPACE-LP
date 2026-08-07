@@ -10,9 +10,11 @@ import {
   T_AMBIENT_BR,
   T_AMBIENT_EU,
 } from '../lib/thermal';
+import { useI18n } from '../lib/i18n';
 
 export default function ThermalSimulator() {
   const [tReject, setTReject] = useState<number>(60);
+  const { t } = useI18n();
 
   const dryViable = isDryCoolingViable(tReject);
   const districtGrade = isDistrictHeatGrade(tReject);
@@ -67,12 +69,10 @@ export default function ThermalSimulator() {
     <div className="w-full">
       {/* Headline Block */}
       <div className="mb-12">
-        <span className="mono-eyebrow">THERMAL INFRASTRUCTURE FOR EXTREME COMPUTING</span>
-        <h1 className="hero-h1">One variable. Three markets.</h1>
+        <span className="mono-eyebrow">{t('hero.eyebrow')}</span>
+        <h1 className="hero-h1">{t('hero.title')}</h1>
         <p className="body-text text-lg">
-          The temperature at which heat leaves a system decides whether a data centre needs water,
-          whether its heat can be sold, and how large a radiator must be in orbit. We engineer that
-          variable.
+          {t('hero.subhead')}
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function ThermalSimulator() {
       <div className="bg-[#171A1F] border border-[#C7CDD6]/12 p-6 md:p-8 mb-8">
         <div className="flex items-center justify-between mb-4">
           <label htmlFor="temp-slider" className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#C7CDD6]">
-            REJECTION TEMPERATURE
+            {t('sim.label')}
           </label>
           <span className="font-mono text-[18px] font-medium text-[#D6C3A3]">
             {tReject} °C
@@ -120,7 +120,7 @@ export default function ThermalSimulator() {
         >
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#C7CDD6] block mb-3">
-              BRAZIL · WATER
+              {t('sim.brazilTitle')}
             </span>
             <div className="font-mono text-3xl md:text-4xl text-[#F3F1EC] mb-2 font-normal">
               {dryViable ? `${waterSaved.toLocaleString('en-US')} m³/year` : '—'}
@@ -128,8 +128,8 @@ export default function ThermalSimulator() {
           </div>
           <p className="text-[14px] text-[#8C939D] leading-snug">
             {dryViable
-              ? 'Evaporative cooling eliminated per MW of IT load'
-              : 'Dry cooling not viable at 35 °C ambient'}
+              ? t('sim.waterLineViable')
+              : t('sim.waterLineNotViable')}
           </p>
         </div>
 
@@ -141,7 +141,7 @@ export default function ThermalSimulator() {
         >
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#C7CDD6] block mb-3">
-              EUROPE · HEAT
+              {t('sim.europeTitle')}
             </span>
             <div className="font-mono text-3xl md:text-4xl text-[#F3F1EC] mb-2 font-normal">
               {orcRecovery} kW
@@ -149,8 +149,8 @@ export default function ThermalSimulator() {
           </div>
           <p className="text-[14px] text-[#8C939D] leading-snug">
             {districtGrade
-              ? 'District-heating grade — sellable as heat'
-              : 'Below district-heating grade'}
+              ? t('sim.heatLineGrade')
+              : t('sim.heatLineBelow')}
           </p>
         </div>
 
@@ -158,14 +158,14 @@ export default function ThermalSimulator() {
         <div className="bg-[#171A1F] border border-[#C7CDD6]/12 p-6 md:p-8 flex flex-col justify-between min-h-[180px]">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#C7CDD6] block mb-3">
-              ORBIT · MASS
+              {t('sim.orbitTitle')}
             </span>
             <div className="font-mono text-3xl md:text-4xl text-[#F3F1EC] mb-2 font-normal">
               {radArea.toLocaleString('en-US')} m²
             </div>
           </div>
           <p className="text-[14px] text-[#8C939D] leading-snug">
-            Radiator area to reject 1 MW in vacuum
+            {t('sim.orbitLine')}
           </p>
         </div>
       </div>
@@ -249,16 +249,16 @@ export default function ThermalSimulator() {
         <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-[#C7CDD6]/10 font-mono text-[11px]">
           <div className="flex items-center gap-2">
             <span className="w-3 h-0.5 bg-[#2a78d6] inline-block" />
-            <span className="text-[#8C939D]">Radiator Area (Norm.)</span>
+            <span className="text-[#8C939D]">{t('sim.chartRad')}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-0.5 bg-[#eb6834] inline-block" />
-            <span className="text-[#8C939D]">ORC Recovery (Norm.)</span>
+            <span className="text-[#8C939D]">{t('sim.chartOrc')}</span>
           </div>
         </div>
 
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#C7CDD6] text-center block mt-3">
-          ε = 0.85 · ONE-SIDED RADIATOR · ORC AT 50% OF CARNOT
+          {t('sim.chartCaption')}
         </span>
       </div>
     </div>
