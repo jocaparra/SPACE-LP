@@ -7,6 +7,7 @@
   --color-gray: #8C939D;
   --color-titanium: #C7CDD6;
   --color-champagne: #D6C3A3;
+  --color-severe: #A32D2D;
 }
 
 :root {
@@ -16,6 +17,7 @@
   --gray: #8C939D;
   --titanium: #C7CDD6;
   --champagne: #D6C3A3;
+  --severe: #A32D2D;
 }
 
 html {
@@ -23,6 +25,7 @@ html {
   color: #F3F1EC;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -33,7 +36,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Typography helper classes matching design tokens */
 .font-mono {
   font-family: var(--font-mono), 'JetBrains Mono', monospace;
 }
@@ -46,56 +48,64 @@ body {
   font-family: var(--font-mono), 'JetBrains Mono', monospace;
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: #C7CDD6;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   display: block;
 }
 
 .hero-h1 {
   font-family: var(--font-sans), 'Inter', sans-serif;
-  font-size: clamp(48px, 7vw, 96px);
+  font-size: clamp(52px, 8vw, 112px);
   font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
   color: #F3F1EC;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .section-h2 {
   font-family: var(--font-sans), 'Inter', sans-serif;
-  font-size: clamp(32px, 4vw, 56px);
+  font-size: clamp(36px, 5vw, 72px);
   font-weight: 300;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: #F3F1EC;
-  margin-bottom: 24px;
-  max-width: 24ch;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
 }
 
 .body-text {
   font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.7;
   color: #8C939D;
   max-width: 68ch;
 }
 
-/* Scroll Animation Utilities */
-.fade-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 500ms ease-out, transform 500ms ease-out;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0E1013;
+}
+::-webkit-scrollbar-thumb {
+  background: #171A1F;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C7CDD6;
 }
 
-.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fade-up {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
