@@ -13,7 +13,7 @@ export default function ComparativeDiagram() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
           <span className="mono-eyebrow">
-            COMPARAÇÃO DE MASSA — MESMO CALOR REJEITADO
+            COMPARAÇÃO DE MASSA — MESMO CALOR REJEITADO (PADRONIZADO EM W/kg)
           </span>
 
           <div className="w-full bg-[#0E1013] border border-[#C7CDD6]/12 p-6 md:p-10 my-8 overflow-hidden rounded-sm">
@@ -32,6 +32,31 @@ export default function ComparativeDiagram() {
                 strokeOpacity="0.15"
                 strokeDasharray="4 4"
               />
+
+              {/* Central Marker: 6,4x mais leve */}
+              <g transform="translate(500, 160)">
+                <rect
+                  x="-65"
+                  y="-18"
+                  width="130"
+                  height="36"
+                  rx="4"
+                  fill="#171A1F"
+                  stroke="#D6C3A3"
+                  strokeWidth="1.5"
+                />
+                <text
+                  x="0"
+                  y="5"
+                  fill="#D6C3A3"
+                  fontFamily="JetBrains Mono, monospace"
+                  fontSize="12"
+                  fontWeight="500"
+                  textAnchor="middle"
+                >
+                  6,4× MAIS LEVE
+                </text>
+              </g>
 
               {/* LEFT SIDE: PAINEL SÓLIDO */}
               <g transform="translate(40, 20)">
@@ -54,15 +79,24 @@ export default function ComparativeDiagram() {
                   fontSize="22"
                   className="font-normal"
                 >
-                  ISS — 14,3 kg/kW
+                  ISS — 70 W/kg
+                </text>
+                <text
+                  x="0"
+                  y="62"
+                  fill="#8C939D"
+                  fontFamily="JetBrains Mono, monospace"
+                  fontSize="11"
+                >
+                  (equiv. 14,3 kg/kW)
                 </text>
 
                 {/* Heavy Solid Panel Representation */}
                 <rect
                   x="50"
-                  y="75"
+                  y="80"
                   width="320"
-                  height="160"
+                  height="155"
                   fill="#171A1F"
                   stroke="#C7CDD6"
                   strokeOpacity="0.4"
@@ -70,14 +104,14 @@ export default function ComparativeDiagram() {
                 />
                 {/* Internal Heat Pipes */}
                 <path
-                  d="M 80 95 H 340 M 80 120 H 340 M 80 145 H 340 M 80 170 H 340 M 80 195 H 340 M 80 215 H 340"
+                  d="M 80 100 H 340 M 80 125 H 340 M 80 150 H 340 M 80 175 H 340 M 80 200 H 340 M 80 220 H 340"
                   stroke="#8C939D"
                   strokeOpacity="0.5"
                   strokeWidth="2"
                 />
                 {/* Micrometeoroid Shield Armor Hash */}
                 <path
-                  d="M 50 75 L 370 235 M 90 75 L 370 195 M 130 75 L 370 155 M 170 75 L 370 115"
+                  d="M 50 80 L 370 235 M 90 80 L 370 195 M 130 80 L 370 155 M 170 80 L 370 115"
                   stroke="#C7CDD6"
                   strokeOpacity="0.08"
                   strokeWidth="1"
@@ -116,6 +150,15 @@ export default function ComparativeDiagram() {
                   className="font-normal"
                 >
                   gotículas — até 450 W/kg
+                </text>
+                <text
+                  x="0"
+                  y="62"
+                  fill="#D6C3A3"
+                  fontFamily="JetBrains Mono, monospace"
+                  fontSize="11"
+                >
+                  (6,4× mais leve que ISS)
                 </text>
 
                 {/* Droplet Generator (Left) */}
@@ -202,9 +245,16 @@ export default function ComparativeDiagram() {
           </div>
 
           {/* Mono Legend Below */}
-          <div className="font-mono text-xs text-[#8C939D] space-y-1">
-            <p>// Valores de literatura. ISS: 70 kW por 840 m² e ~1.000 kg.</p>
-            <p>// Gotículas: estudo de novembro de 2025. Condições de ensaio diferem.</p>
+          <div className="font-mono text-xs text-[#8C939D] space-y-1.5 leading-relaxed">
+            <p>
+              // Unidade W/kg: indica watt de calor rejeitado por quilo de massa do sistema — quanto maior o valor, mais leve e eficiente é a arquitetura.
+            </p>
+            <p>
+              // Comparação de literatura: Painel sólido ISS = 70 W/kg (1×, equiv. 14,3 kg/kW) | Gotículas estudo 2025 = 450 W/kg (6,4×) | Gotículas magnéticas CubeSat = ~1.500 W/kg (21×, equiv. 0,67 kg/kW).
+            </p>
+            <p>
+              // Condições de ensaio e temperatura de rejeição diferem entre estudos. Valores apresentados como referência de literatura.
+            </p>
           </div>
         </motion.div>
       </div>

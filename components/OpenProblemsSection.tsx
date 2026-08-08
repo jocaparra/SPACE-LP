@@ -26,7 +26,7 @@ const openProblems = [
     paragraphs: [
       'Ferrofluido com ímã de cobalto-samário suprimiu completamente o respingo em ensaios dos anos 1980. A configuração foi abandonada porque os eletroímãs supercondutores tornavam o conjunto mais pesado.',
     ],
-    bet: 'ímãs de terras raras modernos mudam essa conta. Um estudo recente reporta 0,67 kg/kW em escala CubeSat. Reproduzir com ímãs permanentes é barato e ainda não foi feito no nosso escopo.',
+    bet: 'ímãs de terras raras modernos mudam essa conta. Um estudo recente reporta ~1.500 W/kg (equiv. 0,67 kg/kW) em escala CubeSat. Reproduzir com ímãs permanentes é barato e ainda não foi feito no nosso escopo.',
   },
   {
     num: 'Problema 04',

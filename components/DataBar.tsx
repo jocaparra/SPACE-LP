@@ -7,7 +7,7 @@ const dataItems = [
   { label: 'Início', value: '2026' },
   { label: 'Base', value: 'Brasil' },
   { label: 'Foco', value: 'Coleta de gotículas' },
-  { label: 'Vantagem de massa', value: '7×' },
+  { label: 'Vantagem de massa', value: '6,4×' },
   { label: 'Referência ISS', value: '70 W/kg' },
   { label: 'Alvo gotículas', value: '450 W/kg' },
   { label: 'Arquivado em', value: '1990' },
