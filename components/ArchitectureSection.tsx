@@ -1,35 +1,38 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
-const stages = [
-  {
-    num: '01',
-    title: 'GERAR',
-    body: 'Um gerador forma bilhões de gotículas por quebra de jato de Rayleigh, com estímulo periódico. Diâmetros entre 50 e 500 micrômetros.',
-    detail: 'até 250 mil gotículas por segundo por orifício. Escala de megawatt exige da ordem de 10⁶ orifícios.',
-  },
-  {
-    num: '02',
-    title: 'IRRADIAR',
-    body: 'A cortina atravessa o vácuo e irradia. A área radiante é a soma da superfície de trilhões de esferas submilimétricas, que ocupam volume mínimo quando condensadas.',
-    detail: 'percurso típico de cem metros. A profundidade óptica da cortina governa a emitância do conjunto.',
-  },
-  {
-    num: '03',
-    title: 'COLETAR',
-    body: 'Um coletor captura as gotículas e desenvolve pressão suficiente para bombear o fluido de volta. Configurações estudadas: coletor linear e coletor centrífugo com captação tipo tubo de Pitot.',
-    detail: 'precisa capturar essencialmente tudo. Perder um fluxo entre 10⁵ custa, em duas semanas, massa equivalente a toda a cortina.',
-  },
-  {
-    num: '04',
-    title: 'RETORNAR',
-    body: 'O fluido volta ao trocador de calor e recomeça o ciclo.',
-    detail: 'a linha de retorno é ponto único de falha e precisa de proteção contra micrometeoroides, o que a torna massiva.',
-  },
-];
+import { useI18n } from '../lib/i18n';
 
 export default function ArchitectureSection() {
+  const { t } = useI18n();
+
+  const stages = [
+    {
+      num: '01',
+      title: t('arch.st1Title'),
+      body: t('arch.st1Body'),
+      detail: t('arch.st1Detail'),
+    },
+    {
+      num: '02',
+      title: t('arch.st2Title'),
+      body: t('arch.st2Body'),
+      detail: t('arch.st2Detail'),
+    },
+    {
+      num: '03',
+      title: t('arch.st3Title'),
+      body: t('arch.st3Body'),
+      detail: t('arch.st3Detail'),
+    },
+    {
+      num: '04',
+      title: t('arch.st4Title'),
+      body: t('arch.st4Body'),
+      detail: t('arch.st4Detail'),
+    },
+  ];
+
   return (
     <section className="py-20 md:py-[160px] border-b border-[#C7CDD6]/12 bg-[#171A1F]">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -39,11 +42,11 @@ export default function ArchitectureSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <span className="mono-eyebrow">ARQUITETURA</span>
+          <span className="mono-eyebrow">{t('arch.eyebrow')}</span>
 
           <h2 className="section-h2 mb-16">
-            <span className="block text-[#8C939D] font-light">Quatro estágios,</span>
-            <span className="block text-[#F3F1EC] font-normal">nenhum painel.</span>
+            <span className="block text-[#8C939D] font-light">{t('arch.h2Line1')}</span>
+            <span className="block text-[#F3F1EC] font-normal">{t('arch.h2Line2')}</span>
           </h2>
 
           <div className="space-y-0 divide-y divide-[#C7CDD6]/12 border-t border-b border-[#C7CDD6]/12">

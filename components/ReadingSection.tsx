@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useI18n } from '../lib/i18n';
 
 const references = [
   {
@@ -46,6 +47,8 @@ const references = [
 ];
 
 export default function ReadingSection() {
+  const { t } = useI18n();
+
   return (
     <section id="leitura" className="py-20 md:py-[160px] border-b border-[#C7CDD6]/12 bg-[#0E1013]">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -55,16 +58,15 @@ export default function ReadingSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <span className="mono-eyebrow">LEITURA</span>
+          <span className="mono-eyebrow">{t('reading.eyebrow')}</span>
 
           <h2 className="section-h2">
-            <span className="block text-[#8C939D] font-light">As fontes,</span>
-            <span className="block text-[#F3F1EC] font-normal">abertas.</span>
+            <span className="block text-[#8C939D] font-light">{t('reading.h2Line1')}</span>
+            <span className="block text-[#F3F1EC] font-normal">{t('reading.h2Line2')}</span>
           </h2>
 
           <p className="body-text mb-16">
-            Não temos publicações próprias. Estas são as fontes primárias em que o
-            trabalho se apoia. Quase todas são de domínio público.
+            {t('reading.body')}
           </p>
 
           <div className="space-y-6 max-w-[960px]">

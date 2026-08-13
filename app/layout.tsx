@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'BASX — Thermal Infrastructure for Extreme Computing',
-  description: 'The thermal layer of the computing stack — on Earth, in orbit, on the Moon.',
+  title: 'AETHER — Rejeição Térmica Orbital',
+  description: 'Programa de pesquisa em rejeição térmica orbital por cortina de gotículas (Liquid Droplet Radiator).',
 };
 
 export default function RootLayout({

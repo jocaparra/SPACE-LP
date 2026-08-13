@@ -1,36 +1,20 @@
 'use client';
 
 import Image from 'next/image';
-
-const images = [
-  {
-    src: '/hero_radiator.jpg',
-    caption: '01 — Radiador de ISS em teste de vácuo · NASA Lewis',
-  },
-  {
-    src: '/strip_vacuum_chamber.jpg',
-    caption: '02 — Câmara de vácuo térmico · NASA Lewis Facility',
-  },
-  {
-    src: '/strip_zero_g.jpg',
-    caption: '03 — Cápsula de ensaio de microgravidade · Zero Gravity Facility',
-  },
-  {
-    src: '/strip_droplet_gen.jpg',
-    caption: '04 — Bocal gerador de gotículas MEMS · Ensaio de laboratório',
-  },
-  {
-    src: '/strip_thermal_vac.jpg',
-    caption: '05 — Carga térmica com manta MLI · NASA NTRS',
-  },
-  {
-    src: '/strip_deployment.jpg',
-    caption: '06 — Mecanismo de desdobramento · Ensaio em solo',
-  },
-];
+import { useI18n } from '../lib/i18n';
 
 export default function ImageStrip() {
-  // Duplicate array for continuous marquee loop
+  const { t } = useI18n();
+
+  const images = [
+    { src: '/hero_radiator.jpg', caption: t('strip.img1') },
+    { src: '/strip_vacuum_chamber.jpg', caption: t('strip.img2') },
+    { src: '/strip_zero_g.jpg', caption: t('strip.img3') },
+    { src: '/strip_droplet_gen.jpg', caption: t('strip.img4') },
+    { src: '/strip_thermal_vac.jpg', caption: t('strip.img5') },
+    { src: '/strip_deployment.jpg', caption: t('strip.img6') },
+  ];
+
   const marqueeImages = [...images, ...images];
 
   return (

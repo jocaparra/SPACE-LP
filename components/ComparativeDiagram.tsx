@@ -1,8 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useI18n } from '../lib/i18n';
 
 export default function ComparativeDiagram() {
+  const { t } = useI18n();
+
   return (
     <section id="tecnologia" className="py-20 md:py-[160px] border-b border-[#C7CDD6]/12 bg-[#171A1F]">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -13,7 +16,7 @@ export default function ComparativeDiagram() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
           <span className="mono-eyebrow">
-            COMPARAÇÃO DE MASSA — MESMO CALOR REJEITADO (PADRONIZADO EM W/kg)
+            {t('diagram.eyebrow')}
           </span>
 
           <div className="w-full bg-[#0E1013] border border-[#C7CDD6]/12 p-6 md:p-10 my-8 overflow-hidden rounded-sm">
@@ -33,7 +36,7 @@ export default function ComparativeDiagram() {
                 strokeDasharray="4 4"
               />
 
-              {/* Central Marker: 6,4x mais leve */}
+              {/* Central Marker */}
               <g transform="translate(500, 160)">
                 <rect
                   x="-65"
@@ -54,7 +57,7 @@ export default function ComparativeDiagram() {
                   fontWeight="500"
                   textAnchor="middle"
                 >
-                  6,4× MAIS LEVE
+                  {t('diagram.badge')}
                 </text>
               </g>
 
@@ -69,7 +72,7 @@ export default function ComparativeDiagram() {
                   letterSpacing="0.14em"
                   className="uppercase font-medium"
                 >
-                  PAINEL SÓLIDO CONVENCIONAL
+                  {t('diagram.leftTitle')}
                 </text>
                 <text
                   x="0"
@@ -79,7 +82,7 @@ export default function ComparativeDiagram() {
                   fontSize="22"
                   className="font-normal"
                 >
-                  ISS — 70 W/kg
+                  {t('diagram.leftStat')}
                 </text>
                 <text
                   x="0"
@@ -88,10 +91,9 @@ export default function ComparativeDiagram() {
                   fontFamily="JetBrains Mono, monospace"
                   fontSize="11"
                 >
-                  (equiv. 14,3 kg/kW)
+                  {t('diagram.leftSub')}
                 </text>
 
-                {/* Heavy Solid Panel Representation */}
                 <rect
                   x="50"
                   y="80"
@@ -102,14 +104,12 @@ export default function ComparativeDiagram() {
                   strokeOpacity="0.4"
                   strokeWidth="1.5"
                 />
-                {/* Internal Heat Pipes */}
                 <path
                   d="M 80 100 H 340 M 80 125 H 340 M 80 150 H 340 M 80 175 H 340 M 80 200 H 340 M 80 220 H 340"
                   stroke="#8C939D"
                   strokeOpacity="0.5"
                   strokeWidth="2"
                 />
-                {/* Micrometeoroid Shield Armor Hash */}
                 <path
                   d="M 50 80 L 370 235 M 90 80 L 370 195 M 130 80 L 370 155 M 170 80 L 370 115"
                   stroke="#C7CDD6"
@@ -124,7 +124,7 @@ export default function ComparativeDiagram() {
                   fontFamily="JetBrains Mono, monospace"
                   fontSize="11"
                 >
-                  nota: tubulação, estrutura, fluido, blindagem contra micrometeoroides
+                  {t('diagram.leftNote')}
                 </text>
               </g>
 
@@ -139,7 +139,7 @@ export default function ComparativeDiagram() {
                   letterSpacing="0.14em"
                   className="uppercase font-medium"
                 >
-                  CORTINA DE GOTÍCULAS (LDR)
+                  {t('diagram.rightTitle')}
                 </text>
                 <text
                   x="0"
@@ -149,7 +149,7 @@ export default function ComparativeDiagram() {
                   fontSize="22"
                   className="font-normal"
                 >
-                  gotículas — até 450 W/kg
+                  {t('diagram.rightStat')}
                 </text>
                 <text
                   x="0"
@@ -158,10 +158,9 @@ export default function ComparativeDiagram() {
                   fontFamily="JetBrains Mono, monospace"
                   fontSize="11"
                 >
-                  (6,4× mais leve que ISS)
+                  {t('diagram.rightSub')}
                 </text>
 
-                {/* Droplet Generator (Left) */}
                 <rect
                   x="20"
                   y="90"
@@ -179,10 +178,9 @@ export default function ComparativeDiagram() {
                   fontSize="9"
                   textAnchor="middle"
                 >
-                  GERADOR
+                  {t('diagram.generator')}
                 </text>
 
-                {/* Droplet Collector (Right) */}
                 <path
                   d="M 360 80 L 400 110 V 200 L 360 230 Z"
                   fill="#171A1F"
@@ -197,10 +195,9 @@ export default function ComparativeDiagram() {
                   fontSize="9"
                   textAnchor="middle"
                 >
-                  COLETOR
+                  {t('diagram.collector')}
                 </text>
 
-                {/* Sheet of Converging Micro-Droplets */}
                 {Array.from({ length: 65 }).map((_, i) => {
                   const yStart = 95 + (i % 13) * 9.5;
                   const x = 70 + (i * 4.4);
@@ -238,23 +235,16 @@ export default function ComparativeDiagram() {
                   fontFamily="JetBrains Mono, monospace"
                   fontSize="11"
                 >
-                  nota: sem painel, sem tubulação na área radiante
+                  {t('diagram.rightNote')}
                 </text>
               </g>
             </svg>
           </div>
 
-          {/* Mono Legend Below */}
           <div className="font-mono text-xs text-[#8C939D] space-y-1.5 leading-relaxed">
-            <p>
-              // Unidade W/kg: indica watt de calor rejeitado por quilo de massa do sistema — quanto maior o valor, mais leve e eficiente é a arquitetura.
-            </p>
-            <p>
-              // Comparação de literatura: Painel sólido ISS = 70 W/kg (1×, equiv. 14,3 kg/kW) | Gotículas estudo 2025 = 450 W/kg (6,4×) | Gotículas magnéticas CubeSat = ~1.500 W/kg (21×, equiv. 0,67 kg/kW).
-            </p>
-            <p>
-              // Condições de ensaio e temperatura de rejeição diferem entre estudos. Valores apresentados como referência de literatura.
-            </p>
+            <p>{t('diagram.leg1')}</p>
+            <p>{t('diagram.leg2')}</p>
+            <p>{t('diagram.leg3')}</p>
           </div>
         </motion.div>
       </div>

@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WM | Risk Layer for Advisors</title>
+  <meta name="description" content="O WM lê toda a sua base e escreve o que você vai falar na reunião. Camada de risco para consultorias e family offices.">
+  
+  <!-- SEO Open Graph -->
+  <meta property="og:title" content="WM | Risk Layer for Advisors">
+  <meta property="og:description" content="Leitura contínua de carteiras e detecção proativa de riscos para consultorias de investimento.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon SVG Data URI: W branco em quadrado preto -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='2' fill='%23000000'/><text x='16' y='22' font-family='sans-serif' font-weight='700' font-size='18' fill='%23ffffff' text-anchor='middle'>W</text></svg>">
+
+  <style>
+    /* ==========================================================================
+       01. DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      --bg: #ffffff;
+      --ink: #000000;
+      --ink2: #3d3d3d;
+      --ink3: #8a8a8a;
+      --line: #e4e4e4;
+      --crit: #d03b3b;
+      --serious: #ec835a;
+      --warn: #fab219;
+      --good: #0ca30c;
+      --s1: #2a78d6;
+      --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+
+    /* ==========================================================================
+       02. RESET & BASE
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      background-color: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.45;
+      background-color: var(--bg);
+      color: var(--ink);
+      box-shadow: none !important;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    /* Container com bordas laterais de 1px */
+    .page-wrapper {
+      max-width: 1240px;
+      margin: 0 auto;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background-color: var(--bg);
+    }
+
+    section, header, footer {
+      border-bottom: 1px solid var(--line);
+      margin: 0;
+      box-shadow: none !important;
+    }
+
+    /* Tipografia Ajustada */
+    .title-hero {
+      font-family: var(--sans);
+      font-size: 52px;
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .title-section {
+      font-family: var(--sans);
+      font-size: 40px;
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .title-item {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 550;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .body-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink2);
+    }
+
+    .label-mono {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink3);
+    }
+
+    /* Números Ajustados */
+    .number-data {
+      font-family: var(--sans);
+      font-size: 40px;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .number-data-sm {
+      font-family: var(--sans);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Botões */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 2px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background-color 150ms ease, color 150ms ease;
+    }
+
+    .btn-black {
+      background-color: var(--ink);
+      color: #ffffff;
+      border: 1px solid var(--ink);
+    }
+
+    .btn-black:hover {
+      background-color: #222222;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--ink);
+      color: #ffffff;
+    }
+
+    .btn-white {
+      background-color: #ffffff;
+      color: var(--ink);
+      border: 1px solid #ffffff;
+    }
+
+    .btn-white:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Slot de Imagem com Wireframe SVG Abstrato */
+    .slot {
+      position: relative;
+      width: 100%;
+      aspect-ratio: var(--ar);
+      background-color: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 0;
+      display: block;
+    }
+
+    .slot-wireframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-color: #ffffff;
+    }
+
+    .slot img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+      display: block;
+    }
+
+    /* Layout Padrão de Seção (Título à esquerda no topo, Conteúdo à direita) */
+    .section-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      padding: 0;
+    }
+
+    .section-sidebar {
+      padding: 56px 32px;
+      border-right: 1px solid var(--line);
+      align-self: start;
+    }
+
+    .section-main-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scroll Animation */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    .animate-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ==========================================================================
+       03. NAVEGAÇÃO
+       ========================================================================== */
+    .nav-header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background-color: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      color: var(--ink2);
+      transition: color 150ms ease;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    /* ==========================================================================
+       04. HERO
+       ========================================================================== */
+    .hero-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-top-grid {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      padding: 56px 32px;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-text-side {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+
+    .hero-bottom-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .metric-cell {
+      padding: 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-right: 1px solid var(--line);
+    }
+
+    .metric-cell:last-child {
+      border-right: none;
+    }
+
+    /* ==========================================================================
+       05. FAIXA PRETA (140px)
+       ========================================================================== */
+    .section-black-banner {
+      background-color: var(--ink);
+      color: #ffffff;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+    }
+
+    .banner-text {
+      font-family: var(--sans);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       06. O QUE QUEBRA
+       ========================================================================== */
+    .breakage-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      align-items: center;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .breakage-row:last-child {
+      border-bottom: none;
+    }
+
+    /* ==========================================================================
+       07. PRODUTO (56px Padding Vertical, 40% Text / 60% Img)
+       ========================================================================== */
+    .product-stack {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-block {
+      display: grid;
+      grid-template-columns: 40% 60%;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding: 56px 0;
+    }
+
+    .product-block:last-child {
+      border-bottom: none;
+    }
+
+    .product-block.reverse {
+      grid-template-columns: 60% 40%;
+    }
+
+    .product-block.reverse .product-text-side {
+      order: 2;
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+
+    .product-block.reverse .product-img-side {
+      order: 1;
+      padding-left: 40px;
+      padding-right: 32px;
+    }
+
+    .product-text-side {
+      padding: 0 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .product-img-side {
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==========================================================================
+       08. A IA CALCULATE, VOCÊ DECIDE
+       ========================================================================== */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pillar-col {
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .pillar-col:first-child {
+      border-right: 1px solid var(--line);
+    }
+
+    .pillar-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pillar-item {
+      border-left: 1px solid var(--ink);
+      padding-left: 12px;
+      font-size: 14px;
+      color: var(--ink2);
+    }
+
+    .pillars-statement-bar {
+      height: 140px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      font-family: var(--sans);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    /* ==========================================================================
+       09. O MOTOR DE RISCO (Grade 10 Células em Largura Total)
+       ========================================================================== */
+    .section-engine {
+      padding: 0;
+    }
+
+    .engine-header {
+      height: 90px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .engine-cell {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .engine-cell:nth-child(5n) {
+      border-right: none;
+    }
+
+    .engine-cell:nth-child(n+6) {
+      border-bottom: none;
+    }
+
+    .engine-footer-bar {
+      padding: 20px 32px;
+    }
+
+    /* ==========================================================================
+       10. COMO FUNCIONA
+       ========================================================================== */
+    .how-row {
+      display: grid;
+      grid-template-columns: 50px 220px 1fr;
+      align-items: center;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--line);
+      gap: 16px;
+    }
+
+    .how-row:last-child {
+      border-bottom: none;
+    }
+
+    /* ==========================================================================
+       11. PREÇO
+       ========================================================================== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pricing-col {
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pricing-col:first-child {
+      border-right: 1px solid var(--line);
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .pricing-feature-item {
+      font-size: 14px;
+      color: var(--ink2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pricing-feature-item::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      background: var(--ink);
+      border-radius: 50%;
+    }
+
+    .pricing-statement-bar {
+      padding: 20px 32px;
+    }
+
+    /* ==========================================================================
+       12. PERGUNTAS (FAQ)
+       ========================================================================== */
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-trigger {
+      width: 100%;
+      text-align: left;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 550;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .faq-icon-svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--ink);
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+      transition: transform 200ms ease;
+    }
+
+    .faq-trigger[aria-expanded="true"] .faq-icon-svg {
+      transform: rotate(45deg);
+    }
+
+    .faq-content {
+      padding: 0 32px 24px 32px;
+      display: none;
+    }
+
+    .faq-content.is-open {
+      display: block;
+    }
+
+    /* ==========================================================================
+       13. CHAMADA FINAL & RODAPÉ
+       ========================================================================== */
+    .section-final-cta {
+      background-color: var(--ink);
+      color: #ffffff;
+      padding: 56px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .final-cta-title {
+      font-family: var(--sans);
+      font-size: 44px;
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      color: #ffffff;
+    }
+
+    .final-cta-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .site-footer {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background-color: var(--bg);
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       14. RESPONSIVIDADE (MOBILE 375px / TABLET 768px)
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .section-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .section-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        padding: 40px 20px;
+      }
+
+      .hero-top-grid {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+      }
+
+      .title-hero {
+        font-size: 36px;
+      }
+
+      .title-section {
+        font-size: 28px;
+      }
+
+      .hero-bottom-metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metric-cell {
+        padding: 16px 20px;
+      }
+
+      .metric-cell:nth-child(2) {
+        border-right: none;
+      }
+
+      .metric-cell:nth-child(3) {
+        border-top: 1px solid var(--line);
+      }
+
+      .metric-cell:nth-child(4) {
+        border-top: 1px solid var(--line);
+        border-right: none;
+      }
+
+      .breakage-row {
+        grid-template-columns: 120px 1fr;
+        padding: 20px;
+      }
+
+      .product-block, .product-block.reverse {
+        grid-template-columns: 1fr;
+        padding: 40px 0;
+      }
+
+      .product-block.reverse .product-text-side {
+        order: 1;
+        padding: 0 20px 24px 20px;
+      }
+
+      .product-block.reverse .product-img-side {
+        order: 2;
+        padding: 0 20px;
+      }
+
+      .product-text-side {
+        padding: 0 20px 24px 20px;
+      }
+
+      .product-img-side {
+        padding: 0 20px;
+      }
+
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pillar-col {
+        padding: 40px 20px;
+      }
+
+      .pillar-col:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .pillars-statement-bar {
+        height: auto;
+        padding: 28px 20px;
+        font-size: 22px;
+      }
+
+      .engine-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .engine-cell:nth-child(5n) {
+        border-right: 1px solid var(--line);
+      }
+
+      .engine-cell:nth-child(2n) {
+        border-right: none;
+      }
+
+      .how-row {
+        grid-template-columns: 40px 1fr;
+        gap: 12px;
+        padding: 20px;
+      }
+
+      .how-row-sentence {
+        grid-column: 2 / -1;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-col {
+        padding: 40px 20px;
+      }
+
+      .pricing-col:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .section-black-banner {
+        height: auto;
+        padding: 36px 20px;
+      }
+
+      .banner-text {
+        font-size: 22px;
+      }
+
+      .final-cta-title {
+        font-size: 32px;
+      }
+
+      .section-final-cta {
+        padding: 40px 20px;
+      }
+
+      .page-wrapper {
+        border-left: none;
+        border-right: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- ==========================================================================
+         01. NAV
+         ========================================================================== -->
+    <header class="nav-header">
+      <div class="nav-left">
+        <span class="nav-brand">WM</span>
+        <span class="label-mono">RISK LAYER FOR ADVISORS</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#produto" class="nav-link">Produto</a></li>
+        <li><a href="#motor" class="nav-link">Motor</a></li>
+        <li><a href="#preco" class="nav-link">Preço</a></li>
+        <li><a href="#perguntas" class="nav-link">Perguntas</a></li>
+      </ul>
+
+      <button class="btn btn-black js-cta-btn">Agendar demonstração</button>
+    </header>
+
+    <main>
+      <!-- ==========================================================================
+           02. HERO
+           ========================================================================== -->
+      <section class="hero-section">
+        <div class="hero-top-grid">
+          
+          <div class="hero-text-side animate-on-scroll">
+            <span class="label-mono">PARA CONSULTORIAS, ASSESSORIAS E FAMILY OFFICES</span>
+            <h1 class="title-hero">
+              Seu cliente vai perguntar por que te paga.<br>
+              <span style="color: var(--ink2);">Nós entregamos a resposta antes.</span>
+            </h1>
+            <p class="body-text">
+              O WM lê toda a sua base e escreve o que você vai falar na reunião.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn btn-black js-cta-btn">Agendar demonstração</button>
+              <a href="#motor" class="btn btn-outline">Ver o motor</a>
+            </div>
+          </div>
+
+          <div class="hero-img-side animate-on-scroll">
+            <figure class="slot" style="--ar:16/10">
+              <svg class="slot-wireframe" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="250" fill="#ffffff"/>
+                <rect x="20" y="20" width="360" height="30" rx="3" fill="#f2f2f2"/>
+                <rect x="35" y="30" width="120" height="10" rx="2" fill="#e4e4e4"/>
+                <rect x="305" y="28" width="60" height="14" rx="2" fill="#e4e4e4"/>
+                <rect x="20" y="65" width="200" height="18" rx="2" fill="#e4e4e4"/>
+                <rect x="20" y="90" width="140" height="10" rx="2" fill="#f2f2f2"/>
+                <rect x="20" y="115" width="360" height="36" rx="3" fill="#f2f2f2"/>
+                <rect x="35" y="127" width="180" height="12" rx="2" fill="#e4e4e4"/>
+                <rect x="320" y="126" width="45" height="14" rx="7" fill="#e4e4e4"/>
+                <rect x="20" y="160" width="360" height="36" rx="3" fill="#f2f2f2"/>
+                <rect x="35" y="172" width="160" height="12" rx="2" fill="#e4e4e4"/>
+                <rect x="320" y="171" width="45" height="14" rx="7" fill="#e4e4e4"/>
+                <rect x="20" y="205" width="360" height="30" rx="3" fill="#f2f2f2"/>
+                <rect x="35" y="214" width="140" height="12" rx="2" fill="#e4e4e4"/>
+              </svg>
+              <img src="img/01-dossie.png" alt="Dossiê da carteira" onerror="this.style.display='none'">
+            </figure>
+          </div>
+
+        </div>
+
+        <div class="hero-bottom-metrics animate-on-scroll">
+          <div class="metric-cell">
+            <span class="number-data-sm">2 SEMANAS</span>
+            <span class="label-mono">INSTALAÇÃO</span>
+          </div>
+          <div class="metric-cell">
+            <span class="number-data">10</span>
+            <span class="label-mono">VERIFICAÇÕES</span>
+          </div>
+          <div class="metric-cell">
+            <span class="number-data">5</span>
+            <span class="label-mono">CUSTÓDIAS</span>
+          </div>
+          <div class="metric-cell">
+            <span class="number-data">0</span>
+            <span class="label-mono">RECOMENDAÇÃO AUTOMÁTICA</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           03. FAIXA PRETA
+           ========================================================================== -->
+      <section class="section-black-banner">
+        <p class="banner-text animate-on-scroll">
+          Um concorrente levantou US$ 85 milhões para fazer isso por R$ 200 por mês. Seu cliente já viu.
+        </p>
+      </section>
+
+      <!-- ==========================================================================
+           04. O QUE QUEBRA (Layout Alinhado com Título à Esquerda)
+           ========================================================================== -->
+      <section class="section-layout">
+        <div class="section-sidebar animate-on-scroll">
+          <h2 class="title-section">O que quebra</h2>
+        </div>
+
+        <div class="section-main-content">
+          <div class="breakage-row animate-on-scroll">
+            <span class="number-data">62%</span>
+            <span class="body-text">Da sua base não é revisada há 90 dias</span>
+          </div>
+          <div class="breakage-row animate-on-scroll">
+            <span class="number-data-sm">1 em 5</span>
+            <span class="body-text">Carteiras está fora da política que você assinou</span>
+          </div>
+          <div class="breakage-row animate-on-scroll">
+            <span class="number-data">R$ 0</span>
+            <span class="body-text">É o que você prova ter feito no trimestre</span>
+          </div>
+          <div class="breakage-row animate-on-scroll">
+            <span class="number-data-sm">1 emissor</span>
+            <span class="body-text">Concentra um sexto de tudo que você assessora</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           05. PRODUTO (Layout Alinhado com Título à Esquerda)
+           ========================================================================== -->
+      <section class="section-layout" id="produto">
+        <div class="section-sidebar animate-on-scroll">
+          <h2 class="title-section">Produto</h2>
+        </div>
+
+        <div class="section-main-content product-stack">
+          <!-- NO. 01 -->
+          <div class="product-block animate-on-scroll">
+            <div class="product-text-side">
+              <span class="label-mono">NO. 01</span>
+              <h3 class="title-item">Fila da semana</h3>
+              <p class="body-text">Ordenada por risco, não por patrimônio.</p>
+            </div>
+            <div class="product-img-side">
+              <figure class="slot" style="--ar:4/3">
+                <svg class="slot-wireframe" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="400" height="300" fill="#ffffff"/>
+                  <rect x="20" y="20" width="360" height="24" rx="2" fill="#e4e4e4"/>
+                  <line x1="20" y1="54" x2="380" y2="54" stroke="#e4e4e4" stroke-width="1"/>
+                  <rect x="20" y="66" width="70" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="110" y="66" width="60" height="12" rx="2" fill="#f2f2f2"/>
+                  <rect x="190" y="64" width="50" height="16" rx="8" fill="#e4e4e4"/>
+                  <rect x="255" y="66" width="125" height="12" rx="2" fill="#f2f2f2"/>
+                  <line x1="20" y1="92" x2="380" y2="92" stroke="#f2f2f2" stroke-width="1"/>
+                  <rect x="20" y="104" width="80" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="110" y="104" width="55" height="12" rx="2" fill="#f2f2f2"/>
+                  <rect x="190" y="102" width="50" height="16" rx="8" fill="#e4e4e4"/>
+                  <rect x="255" y="104" width="110" height="12" rx="2" fill="#f2f2f2"/>
+                  <line x1="20" y1="130" x2="380" y2="130" stroke="#f2f2f2" stroke-width="1"/>
+                  <rect x="20" y="142" width="75" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="110" y="142" width="65" height="12" rx="2" fill="#f2f2f2"/>
+                  <rect x="190" y="140" width="50" height="16" rx="8" fill="#e4e4e4"/>
+                  <rect x="255" y="142" width="120" height="12" rx="2" fill="#f2f2f2"/>
+                  <line x1="20" y1="168" x2="380" y2="168" stroke="#f2f2f2" stroke-width="1"/>
+                  <rect x="20" y="180" width="65" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="110" y="180" width="50" height="12" rx="2" fill="#f2f2f2"/>
+                  <rect x="190" y="178" width="50" height="16" rx="8" fill="#e4e4e4"/>
+                  <rect x="255" y="180" width="105" height="12" rx="2" fill="#f2f2f2"/>
+                  <line x1="20" y1="206" x2="380" y2="206" stroke="#f2f2f2" stroke-width="1"/>
+                  <rect x="20" y="218" width="85" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="110" y="218" width="60" height="12" rx="2" fill="#f2f2f2"/>
+                  <rect x="190" y="216" width="50" height="16" rx="8" fill="#e4e4e4"/>
+                  <rect x="255" y="218" width="115" height="12" rx="2" fill="#f2f2f2"/>
+                  <line x1="20" y1="244" x2="380" y2="244" stroke="#f2f2f2" stroke-width="1"/>
+                  <rect x="20" y="256" width="70" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="110" y="256" width="55" height="12" rx="2" fill="#f2f2f2"/>
+                  <rect x="190" y="254" width="50" height="16" rx="8" fill="#e4e4e4"/>
+                  <rect x="255" y="256" width="90" height="12" rx="2" fill="#f2f2f2"/>
+                </svg>
+                <img src="img/02-fila.png" alt="Fila da semana" onerror="this.style.display='none'">
+              </figure>
+            </div>
+          </div>
+
+          <!-- NO. 02 -->
+          <div class="product-block reverse animate-on-scroll">
+            <div class="product-text-side">
+              <span class="label-mono">NO. 02</span>
+              <h3 class="title-item">Dossiê da carteira</h3>
+              <p class="body-text">A página que você leva para a reunião.</p>
+            </div>
+            <div class="product-img-side">
+              <figure class="slot" style="--ar:4/3">
+                <svg class="slot-wireframe" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="400" height="300" fill="#ffffff"/>
+                  <rect x="20" y="20" width="360" height="32" rx="3" fill="#f2f2f2"/>
+                  <rect x="35" y="30" width="150" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="64" width="360" height="32" rx="3" fill="#ffffff" stroke="#e4e4e4"/>
+                  <rect x="20" y="64" width="5" height="32" fill="#e4e4e4"/>
+                  <rect x="38" y="74" width="180" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="320" y="72" width="50" height="16" rx="8" fill="#f2f2f2"/>
+                  <rect x="20" y="106" width="360" height="32" rx="3" fill="#ffffff" stroke="#e4e4e4"/>
+                  <rect x="20" y="106" width="5" height="32" fill="#e4e4e4"/>
+                  <rect x="38" y="116" width="200" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="320" y="114" width="50" height="16" rx="8" fill="#f2f2f2"/>
+                  <rect x="20" y="148" width="360" height="32" rx="3" fill="#ffffff" stroke="#e4e4e4"/>
+                  <rect x="20" y="148" width="5" height="32" fill="#e4e4e4"/>
+                  <rect x="38" y="158" width="160" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="320" y="156" width="50" height="16" rx="8" fill="#f2f2f2"/>
+                  <rect x="20" y="194" width="360" height="86" rx="4" fill="#f2f2f2"/>
+                  <rect x="35" y="206" width="100" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="35" y="226" width="330" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="35" y="240" width="280" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="35" y="254" width="200" height="8" rx="2" fill="#e4e4e4"/>
+                </svg>
+                <img src="img/05-motor.png" alt="Dossiê da carteira" onerror="this.style.display='none'">
+              </figure>
+            </div>
+          </div>
+
+          <!-- NO. 03 -->
+          <div class="product-block animate-on-scroll">
+            <div class="product-text-side">
+              <span class="label-mono">NO. 03</span>
+              <h3 class="title-item">Portal com sua marca</h3>
+              <p class="body-text">Seu cliente vê o que você fez por ele.</p>
+            </div>
+            <div class="product-img-side">
+              <figure class="slot" style="--ar:4/3">
+                <svg class="slot-wireframe" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="400" height="300" fill="#ffffff"/>
+                  <rect x="20" y="20" width="360" height="36" rx="3" fill="#f2f2f2"/>
+                  <rect x="35" y="32" width="140" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="310" y="32" width="50" height="12" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="68" width="110" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="20" y="84" width="180" height="24" rx="3" fill="#e4e4e4"/>
+                  <rect x="20" y="120" width="110" height="48" rx="3" fill="#f2f2f2"/>
+                  <rect x="30" y="130" width="50" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="30" y="150" width="70" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="145" y="120" width="110" height="48" rx="3" fill="#f2f2f2"/>
+                  <rect x="155" y="130" width="30" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="155" y="150" width="70" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="270" y="120" width="110" height="48" rx="3" fill="#f2f2f2"/>
+                  <rect x="280" y="130" width="40" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="280" y="150" width="70" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="182" width="100" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="200" width="35" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="65" y="200" width="260" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="222" width="35" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="65" y="222" width="220" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="244" width="35" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="65" y="244" width="240" height="10" rx="2" fill="#e4e4e4"/>
+                </svg>
+                <img src="img/03-portal.png" alt="Portal com sua marca" onerror="this.style.display='none'">
+              </figure>
+            </div>
+          </div>
+
+          <!-- NO. 04 -->
+          <div class="product-block reverse animate-on-scroll">
+            <div class="product-text-side">
+              <span class="label-mono">NO. 04</span>
+              <h3 class="title-item">Painel do sócio</h3>
+              <p class="body-text">A pergunta que hoje ninguém responde na hora.</p>
+            </div>
+            <div class="product-img-side">
+              <figure class="slot" style="--ar:16/9">
+                <svg class="slot-wireframe" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="400" height="225" fill="#ffffff"/>
+                  <rect x="20" y="16" width="360" height="40" rx="3" fill="#f2f2f2"/>
+                  <rect x="30" y="24" width="75" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="30" y="42" width="55" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="120" y="24" width="40" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="120" y="42" width="60" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="210" y="24" width="30" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="210" y="42" width="55" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="300" y="24" width="30" height="14" rx="2" fill="#e4e4e4"/>
+                  <rect x="300" y="42" width="55" height="8" rx="2" fill="#e4e4e4"/>
+                  <rect x="20" y="68" width="360" height="140" rx="3" fill="#ffffff" stroke="#e4e4e4"/>
+                  <rect x="30" y="78" width="160" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="30" y="98" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="110" y="98" width="180" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="300" y="98" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="30" y="118" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="110" y="118" width="140" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="300" y="118" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="30" y="138" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="110" y="138" width="110" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="300" y="138" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="30" y="158" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="110" y="158" width="85" height="10" rx="2" fill="#e4e4e4"/>
+                  <rect x="300" y="158" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="30" y="178" width="70" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="110" y="178" width="220" height="10" rx="2" fill="#f2f2f2"/>
+                  <rect x="335" y="178" width="35" height="10" rx="2" fill="#f2f2f2"/>
+                </svg>
+                <img src="img/04-painel.png" alt="Painel do sócio" onerror="this.style.display='none'">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           06. A IA CALCULATE, VOCÊ DECIDE (Layout Alinhado com Título à Esquerda)
+           ========================================================================== -->
+      <section class="section-layout">
+        <div class="section-sidebar animate-on-scroll">
+          <h2 class="title-section">A IA calcula, você decide</h2>
+        </div>
+
+        <div class="section-main-content">
+          <div class="pillars-grid">
+            <div class="pillar-col animate-on-scroll">
+              <span class="label-mono">A INTELIGÊNCIA ARTIFICIAL</span>
+              <ul class="pillar-list">
+                <li class="pillar-item">Lê todas as carteiras</li>
+                <li class="pillar-item">Calcula risco, custo e imposto</li>
+                <li class="pillar-item">Escreve em português claro</li>
+                <li class="pillar-item">Nunca escolhe ativo</li>
+                <li class="pillar-item">Nunca projeta retorno</li>
+                <li class="pillar-item">Nunca envia sozinha</li>
+              </ul>
+            </div>
+
+            <div class="pillar-col animate-on-scroll">
+              <span class="label-mono">VOCÊ</span>
+              <ul class="pillar-list">
+                <li class="pillar-item">Define os limites</li>
+                <li class="pillar-item">Decide o que é risco</li>
+                <li class="pillar-item">Aprova cada palavra</li>
+                <li class="pillar-item">Assina a recomendação</li>
+                <li class="pillar-item">Mantém o cliente</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pillars-statement-bar animate-on-scroll">
+            O cálculo é auditável. A recomendação é sua.
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           07. O MOTOR DE RISCO (Exceção: Grade Largura Total com Banner de 90px)
+           ========================================================================== -->
+      <section class="section-engine" id="motor">
+        <div class="engine-header animate-on-scroll">
+          <h2 class="title-section">O motor</h2>
+        </div>
+
+        <div class="engine-grid">
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 01</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Concentração por emissor</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 02</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Concentração por gestora</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 03</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Descasamento de liquidez</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 04</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Sensibilidade a juros</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 05</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Exposição cambial</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 06</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Vencimentos em 90 dias</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 07</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Custo total ao ano</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 08</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Ineficiência tributária</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 09</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Desvio de suitability</h3>
+          </div>
+          <div class="engine-cell animate-on-scroll">
+            <span class="label-mono">NO. 10</span>
+            <h3 class="body-text" style="font-weight: 550; color: var(--ink);">Deriva de alocação</h3>
+          </div>
+        </div>
+
+        <div class="engine-footer-bar animate-on-scroll">
+          <span class="label-mono">TODO LIMIAR É CONFIGURÁVEL PELO SEU ESCRITÓRIO</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           08. COMO FUNCIONA (Layout Alinhado com Título à Esquerda)
+           ========================================================================== -->
+      <section class="section-layout">
+        <div class="section-sidebar animate-on-scroll">
+          <h2 class="title-section">Como funciona</h2>
+        </div>
+
+        <div class="section-main-content">
+          <div class="how-row animate-on-scroll">
+            <span class="label-mono">01</span>
+            <h3 class="title-item">Conecte as custódias</h3>
+            <span class="body-text how-row-sentence">Open Finance ou arquivo de posição</span>
+          </div>
+          <div class="how-row animate-on-scroll">
+            <span class="label-mono">02</span>
+            <h3 class="title-item">Calibre a política</h3>
+            <span class="body-text how-row-sentence">Seus limites, não os nossos</span>
+          </div>
+          <div class="how-row animate-on-scroll">
+            <span class="label-mono">03</span>
+            <h3 class="title-item">Receba a fila</h3>
+            <span class="body-text how-row-sentence">No máximo três alertas por carteira</span>
+          </div>
+          <div class="how-row animate-on-scroll">
+            <span class="label-mono">04</span>
+            <h3 class="title-item">Aprove e publique</h3>
+            <span class="body-text how-row-sentence">Você lê, edita e libera</span>
+          </div>
+          <div class="how-row animate-on-scroll">
+            <span class="label-mono">05</span>
+            <h3 class="title-item">Prove o valor</h3>
+            <span class="body-text how-row-sentence">Com o seu logotipo em cima</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           09. PREÇO (Layout Alinhado com Título à Esquerda)
+           ========================================================================== -->
+      <section class="section-layout" id="preco">
+        <div class="section-sidebar animate-on-scroll">
+          <h2 class="title-section">Preço</h2>
+        </div>
+
+        <div class="section-main-content">
+          <div class="pricing-grid">
+            <div class="pricing-col animate-on-scroll">
+              <span class="label-mono">PILOTO</span>
+              <div class="number-data">R$ 8.000</div>
+              <span class="label-mono">POR 90 DIAS</span>
+              <ul class="pricing-features">
+                <li class="pricing-feature-item">Escopo fechado</li>
+                <li class="pricing-feature-item">Até 30 carteiras</li>
+                <li class="pricing-feature-item">Sem fidelidade</li>
+              </ul>
+            </div>
+
+            <div class="pricing-col animate-on-scroll">
+              <span class="label-mono">ASSINATURA</span>
+              <div class="number-data">R$ 420</div>
+              <span class="label-mono">POR PROFISSIONAL POR MÊS</span>
+              <ul class="pricing-features">
+                <li class="pricing-feature-item">Carteiras ilimitadas</li>
+                <li class="pricing-feature-item">Portal com sua marca</li>
+                <li class="pricing-feature-item">Painel do sócio</li>
+                <li class="pricing-feature-item">Trilha de diligência</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pricing-statement-bar animate-on-scroll">
+            <span class="label-mono">SEM COMISSÃO. SEM REBATE. VENDEMOS SOFTWARE, NÃO PRODUTO FINANCEIRO.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           10. PERGUNTAS (Layout Alinhado com Título à Esquerda)
+           ========================================================================== -->
+      <section class="section-layout" id="perguntas">
+        <div class="section-sidebar animate-on-scroll">
+          <h2 class="title-section">Perguntas</h2>
+        </div>
+
+        <div class="section-main-content">
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1" id="faq-btn-1">
+              <span>Vocês recomendam investimento?</span>
+              <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div id="faq-ans-1" class="faq-content" role="region" aria-labelledby="faq-btn-1" hidden>
+              <p class="body-text">"Não. A recomendação continua sendo do profissional registrado na CVM."</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2" id="faq-btn-2">
+              <span>De onde vêm os números?</span>
+              <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div id="faq-ans-2" class="faq-content" role="region" aria-labelledby="faq-btn-2" hidden>
+              <p class="body-text">"De um motor de cálculo determinístico. O modelo de linguagem traduz, nunca calcula."</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3" id="faq-btn-3">
+              <span>Qual custódia?</span>
+              <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div id="faq-ans-3" class="faq-content" role="region" aria-labelledby="faq-btn-3" hidden>
+              <p class="body-text">"XP, BTG, Genial, C6 e Avenue. Outras sob demanda."</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4" id="faq-btn-4">
+              <span>Quanto tempo?</span>
+              <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div id="faq-ans-4" class="faq-content" role="region" aria-labelledby="faq-btn-4" hidden>
+              <p class="body-text">"Duas semanas até a primeira fila rodando."</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-5" id="faq-btn-5">
+              <span>Onde ficam meus dados?</span>
+              <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div id="faq-ans-5" class="faq-content" role="region" aria-labelledby="faq-btn-5" hidden>
+              <p class="body-text">"No Brasil, isolados por escritório, sob a LGPD."</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-6" id="faq-btn-6">
+              <span>E se a IA errar?</span>
+              <svg class="faq-icon-svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div id="faq-ans-6" class="faq-content" role="region" aria-labelledby="faq-btn-6" hidden>
+              <p class="body-text">"Nada chega ao seu cliente sem a sua aprovação."</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           11. CHAMADA FINAL
+           ========================================================================== -->
+      <section class="section-final-cta animate-on-scroll">
+        <h2 class="final-cta-title">Traga a planilha de um cliente seu.</h2>
+        <p class="final-cta-desc">Em vinte minutos você vê três riscos que ninguém tinha visto.</p>
+        <button class="btn btn-white js-cta-btn">Agendar demonstração</button>
+        <span class="label-mono" style="color: rgba(255,255,255,0.7); margin-top: 12px;">
+          <a href="mailto:contato@wm.com.br" style="color: inherit; text-decoration: underline;">contato@wm.com.br</a>
+        </span>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+         12. RODAPÉ
+         ========================================================================== -->
+    <footer class="site-footer">
+      <div class="footer-top">
+        <span style="font-weight: 600;">WM</span>
+        <ul class="footer-links">
+          <li><a href="#produto">Produto</a></li>
+          <li><a href="#motor">Motor</a></li>
+          <li><a href="#preco">Preço</a></li>
+          <li><a href="#perguntas">Perguntas</a></li>
+        </ul>
+      </div>
+      <div class="label-mono">
+        WM É UMA EMPRESA DE TECNOLOGIA. NÃO REALIZAMOS CONSULTORIA DE VALORES MOBILIÁRIOS E NÃO RECOMENDAMOS INVESTIMENTOS.
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==========================================================================
+       13. SCRIPT
+       ========================================================================== -->
+  <script>
+    const AGENDA_URL = "https://cal.com/wm/demo";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Vincular botões CTA à constante AGENDA_URL
+      const ctaButtons = document.querySelectorAll('.js-cta-btn');
+      ctaButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = AGENDA_URL;
+        });
+      });
+
+      // 2. Acordeão FAQ (1 aberto por vez, rotação de 45deg, navegação por teclado)
+      const faqButtons = document.querySelectorAll('.faq-trigger');
+      faqButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+          
+          faqButtons.forEach(otherBtn => {
+            otherBtn.setAttribute('aria-expanded', 'false');
+            const targetId = otherBtn.getAttribute('aria-controls');
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+              targetContent.hidden = true;
+              targetContent.classList.remove('is-open');
+            }
+          });
+
+          if (!isExpanded) {
+            button.setAttribute('aria-expanded', 'true');
+            const targetId = button.getAttribute('aria-controls');
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+              targetContent.hidden = false;
+              targetContent.classList.add('is-open');
+            }
+          }
+        });
+
+        button.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            button.click();
+          }
+        });
+      });
+
+      // 3. IntersectionObserver para animação fade-in sutil
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    });
+  </script>
+</body>
+</html>

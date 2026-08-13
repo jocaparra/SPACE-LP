@@ -44,7 +44,6 @@ export default function Navbar() {
   const [utcTime, setUtcTime] = useState<string>('');
   const { lang, setLang, t } = useI18n();
 
-  // Scroll handler & live UTC clock
   useEffect(() => {
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -75,7 +74,6 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Scroll progress bar */}
       <div
         className="h-[2px] bg-[#D6C3A3] transition-all duration-75"
         style={{ width: `${scrollProgress}%` }}
@@ -89,7 +87,6 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-[1280px] mx-auto px-6 flex items-center justify-between">
-          {/* Brand */}
           <a
             href="#"
             className="font-mono text-[13px] font-medium tracking-[0.24em] uppercase text-[#F3F1EC] flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -97,32 +94,29 @@ export default function Navbar() {
             <span>AETHER</span>
           </a>
 
-          {/* Navigation Links */}
           <div className="hidden lg:flex items-center gap-8 text-[14px]">
             <a href="#missao" className="text-[#8C939D] hover:text-[#F3F1EC] transition-colors">
-              Missão
+              {t('nav.missao')}
             </a>
             <a href="#tecnologia" className="text-[#8C939D] hover:text-[#F3F1EC] transition-colors">
-              Tecnologia
+              {t('nav.tecnologia')}
             </a>
             <a href="#problemas" className="text-[#8C939D] hover:text-[#F3F1EC] transition-colors">
-              Problemas
+              {t('nav.problemas')}
             </a>
             <a href="#leitura" className="text-[#8C939D] hover:text-[#F3F1EC] transition-colors">
-              Leitura
+              {t('nav.leitura')}
             </a>
             <a href="#contato" className="text-[#8C939D] hover:text-[#F3F1EC] transition-colors">
-              Contato
+              {t('nav.contato')}
             </a>
           </div>
 
-          {/* Right Controls: Live Clock & Language Selector */}
           <div className="flex items-center gap-5">
             <span className="font-mono text-[11px] text-[#C7CDD6] tracking-[0.14em] uppercase hidden sm:inline-block">
               {utcTime || '00:00:00 UTC'}
             </span>
 
-            {/* Language Selector */}
             <div className="flex items-center gap-1 font-mono text-xs border border-[#C7CDD6]/20 bg-[#171A1F]/80 backdrop-blur-md rounded px-2 py-1">
               <button
                 onClick={() => setLang('en')}
