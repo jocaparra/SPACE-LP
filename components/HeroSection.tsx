@@ -8,7 +8,8 @@ export default function HeroSection() {
   const { t } = useI18n();
 
   return (
-    <section id="missao" className="relative min-h-[92vh] flex items-center pt-32 pb-24 border-b border-[#C7CDD6]/12 overflow-hidden bg-[#0E1013]">
+    <section id="missao" className="relative min-h-[92vh] flex items-center pt-32 pb-20 border-b border-[#C7CDD6]/12 overflow-hidden bg-[#0E1013]">
+      {/* Background Image with 35% opacity and 40% bottom gradient overlay */}
       <div className="absolute inset-0 z-0 opacity-35">
         <Image
           src="/hero_radiator.jpg"
@@ -29,16 +30,17 @@ export default function HeroSection() {
         >
           <span className="mono-eyebrow">{t('hero.eyebrow')}</span>
 
+          {/* Signature H2 Device applied to H1 */}
           <h1 className="hero-h1 mb-8">
             <span className="block text-[#8C939D] font-light">{t('hero.h1Line1')}</span>
             <span className="block text-[#F3F1EC] font-normal">{t('hero.h1Line2')}</span>
           </h1>
 
-          <p className="body-text text-lg md:text-xl mb-12 max-w-[64ch]">
+          <p className="body-text text-lg md:text-xl mb-10 max-w-[64ch]">
             {t('hero.body')}
           </p>
 
-          <div className="flex flex-wrap items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5 mb-14">
             <a
               href="#problemas"
               className="px-6 py-3.5 bg-[#D6C3A3] text-[#0E1013] font-sans text-[14px] font-medium tracking-[0.02em] hover:bg-[#F3F1EC] transition-colors"
@@ -51,6 +53,47 @@ export default function HeroSection() {
             >
               {t('hero.ctaSecondary')}
             </a>
+          </div>
+
+          {/* Backed By Section */}
+          <div className="pt-8 border-t border-[#C7CDD6]/12 max-w-[800px]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8C939D] block mb-5">
+              {t('hero.backedBy')}
+            </span>
+            <div className="flex flex-wrap items-center gap-8 md:gap-12">
+              <div className="relative h-8 w-24 md:h-9 md:w-28 shrink-0">
+                <Image
+                  src="/logo_nasa.png"
+                  alt="NASA"
+                  fill
+                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </div>
+              <div className="relative h-7 w-32 md:h-8 md:w-36 shrink-0">
+                <Image
+                  src="/logo_nvidia.png"
+                  alt="NVIDIA Inception Program"
+                  fill
+                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </div>
+              <div className="relative h-8 w-32 md:h-9 md:w-36 shrink-0">
+                <Image
+                  src="/logo_aws.png"
+                  alt="AWS Startup Programs"
+                  fill
+                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </div>
+              <div className="relative h-7 w-24 md:h-8 md:w-28 shrink-0">
+                <Image
+                  src="/logo_intel.png"
+                  alt="Intel"
+                  fill
+                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

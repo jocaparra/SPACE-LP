@@ -31,6 +31,7 @@ const translations: Record<Language, Record<string, string>> = {
       'Uma cortina de gotículas de 100 micrômetros irradia calor no vácuo com até sete vezes menos massa que painéis sólidos. A NASA arquivou a ideia em 1990 por limites de fabricação que não existem mais.',
     'hero.ctaPrimary': 'Ler os problemas em aberto',
     'hero.ctaSecondary': 'Procuramos um engenheiro térmico',
+    'hero.backedBy': 'APOIADO POR',
 
     // DataBar
     'data.estagioLabel': 'Estágio',
@@ -228,6 +229,7 @@ const translations: Record<Language, Record<string, string>> = {
       'A 100-micrometer liquid droplet curtain radiates heat in vacuum with up to seven times less mass than solid panels. NASA archived the idea in 1990 due to manufacturing limits that no longer exist.',
     'hero.ctaPrimary': 'Read open problems',
     'hero.ctaSecondary': 'Looking for a thermal engineer',
+    'hero.backedBy': 'BACKED BY',
 
     // DataBar
     'data.estagioLabel': 'Stage',
