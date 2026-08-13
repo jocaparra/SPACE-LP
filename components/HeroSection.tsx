@@ -57,42 +57,30 @@ export default function HeroSection() {
 
           {/* Backed By Section */}
           <div className="pt-8 border-t border-[#C7CDD6]/12 max-w-[800px]">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8C939D] block mb-5">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8C939D] block mb-6">
               {t('hero.backedBy')}
             </span>
             <div className="flex flex-wrap items-center gap-8 md:gap-12">
-              <div className="relative h-8 w-24 md:h-9 md:w-28 shrink-0">
-                <Image
-                  src="/logo_nasa.png"
-                  alt="NASA"
-                  fill
-                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
-                />
-              </div>
-              <div className="relative h-7 w-32 md:h-8 md:w-36 shrink-0">
-                <Image
-                  src="/logo_nvidia.png"
-                  alt="NVIDIA Inception Program"
-                  fill
-                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
-                />
-              </div>
-              <div className="relative h-8 w-32 md:h-9 md:w-36 shrink-0">
-                <Image
-                  src="/logo_aws.png"
-                  alt="AWS Startup Programs"
-                  fill
-                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
-                />
-              </div>
-              <div className="relative h-7 w-24 md:h-8 md:w-28 shrink-0">
-                <Image
-                  src="/logo_intel.png"
-                  alt="Intel"
-                  fill
-                  className="object-contain grayscale brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
-                />
-              </div>
+              <img
+                src="/logo_nasa_clean.png"
+                alt="NASA"
+                className="h-8 md:h-10 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
+              />
+              <img
+                src="/logo_nvidia_clean.png"
+                alt="NVIDIA Inception Program"
+                className="h-7 md:h-9 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
+              />
+              <img
+                src="/logo_aws_clean.png"
+                alt="AWS Startup Programs"
+                className="h-7 md:h-9 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
+              />
+              <img
+                src="/logo_intel_clean.png"
+                alt="Intel"
+                className="h-8 md:h-10 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
+              />
             </div>
           </div>
         </motion.div>
