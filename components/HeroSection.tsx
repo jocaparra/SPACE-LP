@@ -62,24 +62,24 @@ export default function HeroSection() {
             </span>
             <div className="flex flex-wrap items-center gap-8 md:gap-12">
               <img
-                src="/logo_nasa_clean.png"
+                src="/logo_nasa_v2.png"
                 alt="NASA"
-                className="h-6 md:h-7 w-auto object-contain opacity-75 hover:opacity-100 transition-opacity"
+                className="h-10 md:h-12 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity"
               />
               <img
                 src="/logo_nvidia_clean.png"
                 alt="NVIDIA Inception Program"
-                className="h-6 md:h-7 w-auto object-contain opacity-75 hover:opacity-100 transition-opacity"
+                className="h-8 md:h-10 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity"
               />
               <img
                 src="/logo_aws_clean.png"
                 alt="AWS Startup Programs"
-                className="h-6 md:h-7 w-auto object-contain opacity-75 hover:opacity-100 transition-opacity"
+                className="h-9 md:h-11 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity"
               />
               <img
                 src="/logo_intel_clean.png"
                 alt="Intel"
-                className="h-7 md:h-8 w-auto object-contain opacity-75 hover:opacity-100 transition-opacity"
+                className="h-9 md:h-11 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity"
               />
             </div>
           </div>
