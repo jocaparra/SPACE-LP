@@ -1,16 +1,31 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Logo from './Logo';
+import ScrollReveal from './ScrollReveal';
 import { useI18n } from '../lib/i18n';
 
 export default function SectionHero() {
   const { t } = useI18n();
 
   return (
-    <section id="sec-00" className="relative bg-[#0A0A0A] border-b border-[#F0F0EB]/10 pt-20 pb-16 min-h-[calc(100vh-88px)] flex flex-col justify-between">
-      <div className="max-w-[1280px] mx-auto px-6 w-full my-auto">
-        <div className="max-w-[900px]">
+    <section id="sec-00" className="relative bg-[#0A0A0A] border-b border-[#F0F0EB]/10 pt-20 pb-16 min-h-[calc(100vh-88px)] flex flex-col justify-between overflow-hidden">
+      {/* Background Image Rail with Gradient Mask (Hydrexx Style) */}
+      <div className="absolute right-0 top-0 w-full lg:w-3/5 h-full pointer-events-none opacity-40 lg:opacity-60">
+        <Image
+          src="/hero_radiator.jpg"
+          alt="Space station thermal radiator undergoing vacuum testing"
+          fill
+          priority
+          className="object-cover object-center filter grayscale-[15%] brightness-[0.75] contrast-[1.1]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/60" />
+      </div>
+
+      <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full my-auto">
+        <ScrollReveal className="max-w-[850px]">
           {/* Section Numbering */}
           <span className="section-num">{t('hero.num')}</span>
 
@@ -32,11 +47,11 @@ export default function SectionHero() {
           <p className="text-lg md:text-xl text-[#858C92] leading-relaxed max-w-[64ch]">
             {t('hero.body')}
           </p>
-        </div>
+        </ScrollReveal>
       </div>
 
       {/* 6-Column Data Bar */}
-      <div className="w-full border-t border-b border-[#F0F0EB]/10 bg-[#262829]/50 mt-16">
+      <div className="relative z-10 w-full border-t border-b border-[#F0F0EB]/10 bg-[#262829]/80 backdrop-blur-md mt-16">
         <div className="max-w-[1280px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-x divide-y md:divide-y-0 divide-[#F0F0EB]/10">
             <div className="p-6">
