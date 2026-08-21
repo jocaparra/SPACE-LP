@@ -2,7 +2,438 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type Language = 'en' | 'pt';
+type Language = 'pt' | 'en';
+
+type Translations = Record<string, string>;
+
+const dictionary: Record<Language, Translations> = {
+  pt: {
+    // Header & Navigation
+    'nav.hero': '00 — HERO',
+    'nav.constraint': '01 — RESTRIÇÃO',
+    'nav.solution': '02 — SOLUÇÃO',
+    'nav.literatureError': '03 — ERRO LITERATURA',
+    'nav.thesis': '04 — TESE',
+    'nav.problems': '05 — PROBLEMAS',
+    'nav.lossReq': '06 — REQUISITO',
+    'nav.dr1': '07 — DR1',
+    'nav.roadmap': '08 — ROTEIRO',
+    'nav.compare': '09 — STATUS',
+    'nav.sources': '10 — FONTES',
+    'nav.contact': '11 — CONTATO',
+    'status.phase': 'R&D — FASE 1',
+    'status.system': 'SISTEMA: NOMINAL',
+
+    // 00 — Hero
+    'hero.num': '00 —',
+    'hero.descriptor': 'SPES — SPACE SYSTEMS ENGINEERING SOLUTIONS',
+    'hero.titleLine1': 'Beyond the HEAT',
+    'hero.titleLine2': 'A camada térmica da computação orbital.',
+    'hero.body': 'No vácuo não existe convecção. Acima de certa escala, o radiador domina a massa da espaçonave, e massa é custo de lançamento. A rejeição de calor é a restrição que limita a computação em órbita.',
+    'hero.data1Label': 'Status',
+    'hero.data1Value': 'Fase de literatura',
+    'hero.data2Label': 'Fundação',
+    'hero.data2Value': '2026',
+    'hero.data3Label': 'Sede',
+    'hero.data3Value': 'Campinas, SP',
+    'hero.data4Label': 'Foco',
+    'hero.data4Value': 'Radiador de gotículas',
+    'hero.data5Label': 'Faixa de operação',
+    'hero.data5Value': '275 a 335 K',
+    'hero.data6Label': 'Próximo marco',
+    'hero.data6Value': 'Dez 2026',
+
+    // 01 — A restrição
+    'sec01.num': '01 —',
+    'sec01.title': 'No vácuo, o calor só sai por radiação.',
+    'sec01.body': 'Na ausência de atmosfera, a troca térmica ocorre exclusivamente por emissão infravermelha, regida pela lei de Stefan-Boltzmann (E = εσT⁴). Como a potência dissipada cresce linearmente com o processamento, a área de radiador escala rapidamente, tornando o sistema térmico a maior fração de massa da nave.',
+    'sec01.legend': 'Acima de certa potência, o radiador domina a massa da nave.',
+    'sec01.chartLabelX': 'POTÊNCIA DISSIPADA (kW)',
+    'sec01.chartLabelY': 'MASSA DO SISTEMA (kg)',
+    'sec01.curvePanel': 'Radiador de painel sólido',
+    'sec01.curveDroplet': 'Cortina de gotículas (Spes)',
+    'sec01.crossoverLabel': 'Domínio da massa do radiador',
+
+    // 02 — A solução conhecida
+    'sec02.num': '02 —',
+    'sec02.title': 'A resposta existe desde os anos 1980.',
+    'sec02.stage1': '01 — GERAR',
+    'sec02.stage1Desc': 'Orifícios formam jatos colimados de fluido.',
+    'sec02.stage2': '02 — IRRADIAR',
+    'sec02.stage2Desc': 'Trilhões de gotículas emitem IV no vácuo.',
+    'sec02.stage3': '03 — COLETAR',
+    'sec02.stage3Desc': 'Captura do filme e bombeamento de retorno.',
+    'sec02.stage4': '04 — RETORNAR',
+    'sec02.stage4Desc': 'Trocador de calor recicla o fluido resfriado.',
+    'sec02.note': 'é aqui que está o problema não resolvido',
+    'sec02.bigNumber': '~10× mais leve',
+    'sec02.conditions': 'fluido de silicone · 275 a 335 K · escala de módulo',
+
+    // 03 — O erro que a literatura popular comete
+    'sec03.num': '03 —',
+    'sec03.title': 'O erro que a literatura popular comete.',
+    'sec03.subtitle': 'Estudos dos anos 1980 focaram em reatores nucleares a 700 K. A computação orbital opera entre 275 e 335 K.',
+    'sec03.leftHeader': 'CENÁRIO COMPUTACIONAL (SILICONE)',
+    'sec03.leftLine1': 'Óleo de silicone',
+    'sec03.leftLine2': '275 a 335 K',
+    'sec03.leftLine3': 'compatível com processador',
+    'sec03.leftLine4': 'Ótimo do sistema: centenas de kW',
+    'sec03.rightHeader': 'CENÁRIO NUCLEAR (METAL LÍQUIDO)',
+    'sec03.rightLine1': 'Metal líquido',
+    'sec03.rightLine2': '700 K e acima',
+    'sec03.rightLine3': 'reator nuclear',
+    'sec03.rightLine4': 'Ótimo do sistema: 10 a 100 MW (com replicação modular)',
+    'sec03.banner': 'Um data center orbital não é um radiador. São dezenas de módulos replicados.',
+    'sec03.subBanner': 'Ninguém publicou a massa auxiliar dessa replicação.',
+
+    // 04 — A tese
+    'sec04.num': '04 —',
+    'sec04.line1': 'A física do radiador de gotículas é conhecida.',
+    'sec04.line2': 'Falta demonstrar que a vantagem de massa sobrevive à escala.',
+    'sec04.line3': 'A Spes existe para medir isso.',
+
+    // 05 — Problemas em aberto
+    'sec05.num': '05 —',
+    'sec05.title': 'Problemas em aberto.',
+    'sec05.diffSevere': 'SEVERO',
+    'sec05.diffHigh': 'ALTO',
+    'sec05.diffMedium': 'MÉDIO',
+
+    'sec05.p1Title': '01 — Sobrevivência da vantagem de massa sob replicação modular',
+    'sec05.p1Open': 'O que está aberto: A literatura calcula a razão W/kg para um único módulo ideal. Em um sistema espacial de grande porte com replicação modular de megawatts, a massa de tubulações, coletores distribuídos e trocadores de calor intermediários pode anular o benefício.',
+    'sec05.p1Bet': 'Nossa aposta: Um modelo paramétrico que inclui massa de bombeamento e conexões modulares revela o limite real de viabilidade antes da fabricação.',
+
+    'sec05.p2Title': '02 — Massa dos componentes auxiliares por módulo',
+    'sec05.p2Open': 'O que está aberto: Eletroímãs de contenção, bombas de vácuo de pressurização e manifolds de distribuição adicionam massa morta a cada módulo.',
+    'sec05.p2Bet': 'Nossa aposta: Otimização de coletores capilares passivos e bombas integradas reduz a penalidade de massa dos auxiliares.',
+
+    'sec05.p3Title': '03 — Espessura óptica da cortina e reabsorção',
+    'sec05.p3Open': 'O que está aberto: Cortinas muito densas reabsorvem a radiação emitida pelas gotículas internas, reduzindo a emissividade efetiva abaixo de 0,5.',
+    'sec05.p3Bet': 'Nossa aposta: Geometria de cortina plana delgada com espaçamento calibrado via simulação Monte Carlo de transferência radiativa.',
+
+    'sec05.p4Title': '04 — Coleta sem desprendimento de gotículas secundárias',
+    'sec05.p4Open': 'O que está aberto: Ao atingir o filme de coleta, o impacto da gotícula primária gera microgotículas secundárias que espirram de volta ao vácuo.',
+    'sec05.p4Bet': 'Nossa aposta: Alvo de malha porosa desaceleradora com captação de filme por diferencial de pressão reduz em 500× a formação secundária.',
+
+    'sec05.p5Title': '05 — Perda total de fluido: coleta falha, evaporação e contaminação',
+    'sec05.p5Open': 'O que está aberto: Perda contínua de fluido diminui a massa térmica embarcada e deposita filme de silicone sobre painéis solares e sensores.',
+    'sec05.p5Bet': 'Nossa aposta: Fluidos de silicone de ultra-baixa pressão de vapor (<10⁻⁸ Torr a 300 K) com sistema de reciclagem de névoa no coletor.',
+
+    'sec05.p6Title': '06 — Seleção e degradação do fluido em órbita baixa',
+    'sec05.p6Open': 'O que está aberto: Oxigênio atômico (AO) e radiação UV degradam cadeias de siloxano, alterando viscosidade e pressão de vapor.',
+    'sec05.p6Bet': 'Nossa aposta: Aditivos antioxidantes e fluorados estáveis a AO para operação prolongada em LEO.',
+
+    'sec05.p7Title': '07 — Apontamento e dinâmica da cortina sob manobra',
+    'sec05.p7Open': 'O que está aberto: Acionamentos de atitude e acelerações da espaçonave desviam o feixe de gotículas, fazendo-o errar o coletor.',
+    'sec05.p7Bet': 'Nossa aposta: Guiamento magnético do feixe ou coletor superdimensionado com malha de retenção capilar.',
+
+    'sec05.p8Title': '08 — Detritos, contaminação e licenciamento',
+    'sec05.p8Open': 'O que está aberto: Agências reguladoras exigem prova de que a cortina não gerará detritos líquidos em órbita nem contaminará satélites vizinhos.',
+    'sec05.p8Bet': 'Nossa aposta: Protocolos de contenção passiva e isolamento físico para ensaios orbitais seguros.',
+
+    'sec05.p9Title': '09 — Cadeia térmica completa, do processador ao vácuo',
+    'sec05.p9Open': 'O que está aberto: A resistência térmica da junção do chip ao fluido de silicone pode ser o verdadeiro gargalo do sistema.',
+    'sec05.p9Bet': 'Nossa aposta: Refrigeração por imersão direta do substrato de silício no fluido de arrefecimento antes da ejeção.',
+
+    'sec05.ctaText': 'Acha que consegue resolver um destes?',
+    'sec05.ctaAction': '→ Fale conosco',
+
+    // 06 — Requisito de perda
+    'sec06.num': '06 —',
+    'sec06.title': 'Requisito de perda.',
+    'sec06.body': 'O requisito de taxa de perda aceitável não é uma constante empírica citada na literatura, mas um valor estritamente derivado da arquitetura e da vida útil planejada.',
+    'sec06.formulaLabel': 'EQUAÇÃO DE DERIVAÇÃO DE PERDA ACEITÁVEL',
+    'sec06.formula': 'perda tolerável = (reserva × massa de fluido embarcada) ÷ (vazão mássica × vida de missão)',
+    'sec06.note': 'Publicamos em quilogramas por ano, com coleta falha, evaporação e contaminação separadas.',
+
+    // 07 — Spes DR1
+    'sec07.num': '07 —',
+    'sec07.title': 'O instrumento que precisamos construir é o produto que já podemos vender.',
+    'sec07.subtitle': 'Bancada de ensaio de geração, trajetória e coleta de gotículas em vácuo.',
+    'sec07.body': 'Desenvolvida para validar experimentos térmicos de alta precisão. Duas formas de aquisição: equipamento completo para laboratório, ou campanha de ensaio contratada executada pela nossa equipe. Não existe fornecedor nacional equivalente.',
+    'sec07.spec1Label': 'Pressão de vácuo',
+    'sec07.spec1Value': '< 10⁻⁵ mbar',
+    'sec07.spec2Label': 'Vazão de gotículas',
+    'sec07.spec2Value': '10.000 a 250.000 /s',
+    'sec07.spec3Label': 'Diâmetro de orifício',
+    'sec07.spec3Value': '50 a 300 µm',
+    'sec07.spec4Label': 'Diagnóstico óptico',
+    'sec07.spec4Value': 'Sombrografia e PIV integrada',
+    'sec07.spec5Label': 'Modos de contrato',
+    'sec07.spec5Value': 'Bancada completa ou Campanha contratada',
+
+    // 08 — Roteiro
+    'sec08.num': '08 —',
+    'sec08.title': 'Roteiro de desenvolvimento.',
+    'sec08.item1Date': 'DEZ 2026',
+    'sec08.item1Title': 'Modelo paramétrico de massa publicado',
+    'sec08.item1Desc': 'Lançamento do código aberto para estimativa de massa de sistemas de gotículas vs painéis.',
+    'sec08.item2Date': 'MAR 2027',
+    'sec08.item2Title': 'Responsável técnico na equipe e proposta de fomento submetida',
+    'sec08.item2Desc': 'Submissão de proposta de pesquisa aplicada aos órgãos de fomento com liderança acadêmica.',
+    'sec08.item3Date': 'SET 2027',
+    'sec08.item3Title': 'Bancada operacional e calibrada',
+    'sec08.item3Desc': 'Primeiro disparo da bancada Spes DR1 em câmara de vácuo com amostragem óptica.',
+    'sec08.item4Date': 'DEZ 2027',
+    'sec08.item4Title': 'Primeira unidade entregue',
+    'sec08.item4Desc': 'Entrega da primeira bancada de ensaio contratada para parceiro de pesquisa.',
+    'sec08.item5Date': '2028',
+    'sec08.item5Title': 'Campanha experimental de coleta e publicação',
+    'sec08.item5Desc': 'Validação em gravidade normal da eficiência de coleta e publicação dos resultados primários.',
+
+    // 09 — O que temos e o que não temos
+    'sec09.num': '09 —',
+    'sec09.title': 'O que temos e o que não temos.',
+    'sec09.leftTitle': 'O QUE TEMOS',
+    'sec09.left1': 'Revisão de literatura em andamento',
+    'sec09.left2': 'Modelo paramétrico em construção',
+    'sec09.left3': 'Equipe e papéis definidos',
+    'sec09.rightTitle': 'O QUE NÃO TEMOS',
+    'sec09.right1': 'Engenheiro sênior de transferência de calor',
+    'sec09.right2': 'Laboratório próprio',
+    'sec09.right3': 'Protótipo físico construído',
+    'sec09.right4': 'Qualquer resultado experimental nosso',
+    'sec09.closing': 'Primeira verificação: quatro meses, custo próximo de zero, antes de qualquer compra de equipamento.',
+
+    // 10 — Fontes
+    'sec10.num': '10 —',
+    'sec10.title': 'Fontes e literatura.',
+    'sec10.primTitle': 'LITERATURA PRIMÁRIA',
+    'sec10.prim1': 'NASA TM-89852 (1987) — Liquid Droplet Radiator Systems Analysis',
+    'sec10.prim2': 'NASA CR-185164 (1989) — Advanced Droplet Collector Testing',
+    'sec10.prim3': 'NASA CR-175033 (1986) — Droplet Generation in High Vacuum',
+    'sec10.prim4': 'Mattick & Hertzberg (Acta Astronautica, 1982) — Liquid Droplet Radiators for Heat Rejection in Space',
+    'sec10.prim5': 'Journal of Spacecraft and Rockets (2024) — Re-evaluating Thermal Management for Megawatt Orbiting Compute',
+    'sec10.mktTitle': 'ANÁLISES DE MERCADO',
+    'sec10.mkt1': 'Relatórios de demanda de dados orbitais e constelações de IA em LEO',
+    'sec10.counterTitle': 'CONTRA-ARGUMENTO E CONTRADITÓRIO',
+    'sec10.counterBody': 'Existem análises independentes sustentando que a rejeição de calor não é o gargalo da computação orbital. Discordamos, e o motivo é a faixa de potência considerada. Abaixo de centenas de quilowatts o painel solar domina a área; acima de megawatts com replicação modular, a massa do radiador se torna o fator crítico.',
+
+    // 11 — Contato e rodapé
+    'sec11.num': '11 —',
+    'sec11.title': 'Contato.',
+    'sec11.emailLabel': 'CORRESPONDÊNCIA TÉCNICA',
+    'sec11.emailValue': 'contato@spes.space',
+    'sec11.locationLabel': 'SEDE E COORDENADAS',
+    'sec11.locationValue': 'Campinas, SP — Brasil · 22°54\'S 47°03\'W',
+    'sec11.countdownLabel': 'CONTAGEM REGRESSIVA (PRÓXIMO MARCO: DEZ 2026)',
+    'sec11.disclaimer': 'Valores técnicos apresentados neste site são metas de desenvolvimento e parâmetros de modelo de engenharia, não desempenho garantido ou produto comercial homologado.',
+    'sec11.copyright': '© 2026 SPES SPACE SYSTEMS ENGINEERING SOLUTIONS. TODOS OS DIREITOS RESERVADOS.'
+  },
+  en: {
+    // Header & Navigation
+    'nav.hero': '00 — HERO',
+    'nav.constraint': '01 — CONSTRAINT',
+    'nav.solution': '02 — SOLUTION',
+    'nav.literatureError': '03 — LITERATURE ERROR',
+    'nav.thesis': '04 — THESIS',
+    'nav.problems': '05 — PROBLEMS',
+    'nav.lossReq': '06 — REQUIREMENT',
+    'nav.dr1': '07 — DR1',
+    'nav.roadmap': '08 — ROADMAP',
+    'nav.compare': '09 — STATUS',
+    'nav.sources': '10 — SOURCES',
+    'nav.contact': '11 — CONTACT',
+    'status.phase': 'R&D — PHASE 1',
+    'status.system': 'SYSTEM: NOMINAL',
+
+    // 00 — Hero
+    'hero.num': '00 —',
+    'hero.descriptor': 'SPES — SPACE SYSTEMS ENGINEERING SOLUTIONS',
+    'hero.titleLine1': 'Beyond the HEAT',
+    'hero.titleLine2': 'The thermal layer of orbital computing.',
+    'hero.body': 'In vacuum there is no convection. Above a certain scale, the radiator dominates spacecraft mass, and mass is launch cost. Heat rejection is the constraint limiting orbital computing.',
+    'hero.data1Label': 'Status',
+    'hero.data1Value': 'Literature phase',
+    'hero.data2Label': 'Foundation',
+    'hero.data2Value': '2026',
+    'hero.data3Label': 'HQ',
+    'hero.data3Value': 'Campinas, SP',
+    'hero.data4Label': 'Focus',
+    'hero.data4Value': 'Liquid droplet radiator',
+    'hero.data5Label': 'Operating range',
+    'hero.data5Value': '275 to 335 K',
+    'hero.data6Label': 'Next milestone',
+    'hero.data6Value': 'Dec 2026',
+
+    // 01 — A restrição
+    'sec01.num': '01 —',
+    'sec01.title': 'In vacuum, heat only leaves through radiation.',
+    'sec01.body': 'In the absence of atmosphere, thermal exchange occurs exclusively via infrared emission governed by the Stefan-Boltzmann law (E = εσT⁴). As chip dissipated power scales linearly with compute, radiator area expands dramatically, making thermal control the dominant spacecraft mass fraction.',
+    'sec01.legend': 'Above a certain power, the radiator dominates spacecraft mass.',
+    'sec01.chartLabelX': 'DISSIPATED POWER (kW)',
+    'sec01.chartLabelY': 'SYSTEM MASS (kg)',
+    'sec01.curvePanel': 'Solid panel radiator',
+    'sec01.curveDroplet': 'Liquid droplet curtain (Spes)',
+    'sec01.crossoverLabel': 'Radiator mass dominance',
+
+    // 02 — A solução conhecida
+    'sec02.num': '02 —',
+    'sec02.title': 'The answer has existed since the 1980s.',
+    'sec02.stage1': '01 — GENERATE',
+    'sec02.stage1Desc': 'Orifices form collimated fluid streams.',
+    'sec02.stage2': '02 — RADIATE',
+    'sec02.stage2Desc': 'Trillions of droplets emit IR in vacuum.',
+    'sec02.stage3': '03 — COLLECT',
+    'sec02.stage3Desc': 'Film capture and return pumping.',
+    'sec02.stage4': '04 — RETURN',
+    'sec02.stage4Desc': 'Heat exchanger recycles cooled fluid.',
+    'sec02.note': 'this is where the unsolved problem lies',
+    'sec02.bigNumber': '~10× lighter',
+    'sec02.conditions': 'silicone fluid · 275 to 335 K · module scale',
+
+    // 03 — O erro que a literatura popular comete
+    'sec03.num': '03 —',
+    'sec03.title': 'The mistake popular literature makes.',
+    'sec03.subtitle': '1980s studies focused on 700 K nuclear reactors. Orbital compute operates between 275 and 335 K.',
+    'sec03.leftHeader': 'COMPUTATIONAL SCENARIO (SILICONE)',
+    'sec03.leftLine1': 'Silicone oil',
+    'sec03.leftLine2': '275 to 335 K',
+    'sec03.leftLine3': 'processor compatible',
+    'sec03.leftLine4': 'System optimum: hundreds of kW',
+    'sec03.rightHeader': 'NUCLEAR SCENARIO (LIQUID METAL)',
+    'sec03.rightLine1': 'Liquid metal',
+    'sec03.rightLine2': '700 K and above',
+    'sec03.rightLine3': 'nuclear reactor',
+    'sec03.rightLine4': 'System optimum: 10 to 100 MW (with modular replication)',
+    'sec03.banner': 'An orbital data center is not one radiator. It is dozens of replicated modules.',
+    'sec03.subBanner': 'No one has published the auxiliary mass of this replication.',
+
+    // 04 — A tese
+    'sec04.num': '04 —',
+    'sec04.line1': 'The physics of liquid droplet radiators is known.',
+    'sec04.line2': 'It remains to be shown that the mass advantage survives scale.',
+    'sec04.line3': 'Spes exists to measure this.',
+
+    // 05 — Problemas em aberto
+    'sec05.num': '05 —',
+    'sec05.title': 'Open problems.',
+    'sec05.diffSevere': 'SEVERE',
+    'sec05.diffHigh': 'HIGH',
+    'sec05.diffMedium': 'MEDIUM',
+
+    'sec05.p1Title': '01 — Survival of mass advantage under modular replication',
+    'sec05.p1Open': 'What is open: Literature calculates the W/kg ratio for a single ideal module. In large-scale megawatt space systems with modular replication, the mass of manifold piping, distributed collectors, and heat exchangers can offset the benefit.',
+    'sec05.p1Bet': 'Our bet: A parametric model including pumping mass and modular interconnects reveals the true viability boundary before manufacturing.',
+
+    'sec05.p2Title': '02 — Auxiliary component mass per module',
+    'sec05.p2Open': 'What is open: Containment electromagnets, pressurization vacuum pumps, and distribution manifolds add dead mass to every module.',
+    'sec05.p2Bet': 'Our bet: Optimization of passive capillary collectors and integrated pumps reduces auxiliary mass penalty.',
+
+    'sec05.p3Title': '03 — Curtain optical thickness and reabsorption',
+    'sec05.p3Open': 'What is open: Overly dense droplet curtains reabsorb radiation emitted by inner droplets, driving effective emissivity below 0.5.',
+    'sec05.p3Bet': 'Our bet: Thin planar curtain geometry with calibrated spacing via Monte Carlo radiative transfer simulation.',
+
+    'sec05.p4Title': '04 — Collection without secondary droplet splashing',
+    'sec05.p4Open': 'What is open: Upon striking the collection film, primary droplet impact generates secondary micro-droplets that splash back into vacuum.',
+    'sec05.p4Bet': 'Our bet: Decelerating porous mesh target with film pressure differential capture reduces secondary splashing by 500×.',
+
+    'sec05.p5Title': '05 — Total fluid loss: failed collection, evaporation, and contamination',
+    'sec05.p5Open': 'What is open: Continuous fluid loss depletes onboard thermal mass and deposits silicone film onto solar panels and optical sensors.',
+    'sec05.p5Bet': 'Our bet: Ultra-low vapor pressure silicone fluids (<10⁻⁸ Torr at 300 K) with mist recycling systems in the collector.',
+
+    'sec05.p6Title': '06 — Fluid selection and LEO degradation',
+    'sec05.p6Open': 'What is open: Atomic oxygen (AO) and UV radiation degrade siloxane chains, altering fluid viscosity and vapor pressure.',
+    'sec05.p6Bet': 'Our bet: Antioxidant additives and AO-stable fluorinated compounds for prolonged LEO operation.',
+
+    'sec05.p7Title': '07 — Curtain pointing and dynamics under maneuver',
+    'sec05.p7Open': 'What is open: Spacecraft attitude thrusters and orbital maneuvers deflect the droplet stream, causing it to miss the collector.',
+    'sec05.p7Bet': 'Our bet: Magnetic stream guidance or oversized collector with capillary retention mesh.',
+
+    'sec05.p8Title': '08 — Debris, contamination, and licensing',
+    'sec05.p8Open': 'What is open: Regulatory agencies require proof that droplet curtains will not generate orbital liquid debris or contaminate neighboring satellites.',
+    'sec05.p8Bet': 'Our bet: Passive containment protocols and physical isolation enclosures for safe orbital testing.',
+
+    'sec05.p9Title': '09 — Complete thermal chain, from processor to vacuum',
+    'sec05.p9Open': 'What is open: Thermal resistance from chip junction to silicone fluid may be the system\'s true bottleneck.',
+    'sec05.p9Bet': 'Our bet: Direct immersion cooling of silicon substrate in thermal fluid prior to droplet ejection.',
+
+    'sec05.ctaText': 'Think you can solve one of these?',
+    'sec05.ctaAction': '→ Talk to us',
+
+    // 06 — Requisito de perda
+    'sec06.num': '06 —',
+    'sec06.title': 'Loss requirement.',
+    'sec06.body': 'The acceptable loss rate requirement is not an empirical constant quoted in literature, but a value strictly derived from system architecture and mission lifetime.',
+    'sec06.formulaLabel': 'ACCEPTABLE LOSS DERIVATION EQUATION',
+    'sec06.formula': 'tolerable loss = (reserve × onboard fluid mass) ÷ (mass flow rate × mission lifetime)',
+    'sec06.note': 'We publish in kilograms per year, with failed collection, evaporation, and contamination accounted for separately.',
+
+    // 07 — Spes DR1
+    'sec07.num': '07 —',
+    'sec07.title': 'The instrument we need to build is the product we can already sell.',
+    'sec07.subtitle': 'Test bench for droplet generation, trajectory, and collection in vacuum.',
+    'sec07.body': 'Engineered to validate high-precision space thermal experiments. Two acquisition modes: complete laboratory equipment, or contracted test campaign executed by our team. No equivalent domestic supplier exists.',
+    'sec07.spec1Label': 'Vacuum pressure',
+    'sec07.spec1Value': '< 10⁻⁵ mbar',
+    'sec07.spec2Label': 'Droplet rate',
+    'sec07.spec2Value': '10,000 to 250,000 /s',
+    'sec07.spec3Label': 'Orifice diameter',
+    'sec07.spec3Value': '50 to 300 µm',
+    'sec07.spec4Label': 'Optical diagnostics',
+    'sec07.spec4Value': 'Integrated Shadowgraphy & PIV',
+    'sec07.spec5Label': 'Acquisition modes',
+    'sec07.spec5Value': 'Complete Bench or Contracted Campaign',
+
+    // 08 — Roteiro
+    'sec08.num': '08 —',
+    'sec08.title': 'Development roadmap.',
+    'sec08.item1Date': 'DEC 2026',
+    'sec08.item1Title': 'Parametric mass model published',
+    'sec08.item1Desc': 'Open source release for estimating mass of droplet systems vs solid panels.',
+    'sec08.item2Date': 'MAR 2027',
+    'sec08.item2Title': 'Technical lead recruited and grant proposal submitted',
+    'sec08.item2Desc': 'Applied research proposal submission to funding agencies with academic leadership.',
+    'sec08.item3Date': 'SEP 2027',
+    'sec08.item3Title': 'Test bench operational and calibrated',
+    'sec08.item3Desc': 'First firing of Spes DR1 bench in vacuum chamber with optical sampling.',
+    'sec08.item4Date': 'DEC 2027',
+    'sec08.item4Title': 'First unit delivered',
+    'sec08.item4Desc': 'Delivery of first contracted test bench to research partner.',
+    'sec08.item5Date': '2028',
+    'sec08.item5Title': 'Experimental collection campaign & publication',
+    'sec08.item5Desc': '1G validation of collection efficiency and publication of primary results.',
+
+    // 09 — O que temos e o que não temos
+    'sec09.num': '09 —',
+    'sec09.title': 'What we have and what we don\'t.',
+    'sec09.leftTitle': 'WHAT WE HAVE',
+    'sec09.left1': 'Literature review in progress',
+    'sec09.left2': 'Parametric model under construction',
+    'sec09.left3': 'Team & roles defined',
+    'sec09.rightTitle': 'WHAT WE DON\'T HAVE',
+    'sec09.right1': 'Senior heat transfer engineer',
+    'sec09.right2': 'Own laboratory',
+    'sec09.right3': 'Physical prototype built',
+    'sec09.right4': 'Any experimental results of our own',
+    'sec09.closing': 'First verification: four months, near-zero cost, before any equipment purchase.',
+
+    // 10 — Fontes
+    'sec10.num': '10 —',
+    'sec10.title': 'Sources and literature.',
+    'sec10.primTitle': 'PRIMARY LITERATURE',
+    'sec10.prim1': 'NASA TM-89852 (1987) — Liquid Droplet Radiator Systems Analysis',
+    'sec10.prim2': 'NASA CR-185164 (1989) — Advanced Droplet Collector Testing',
+    'sec10.prim3': 'NASA CR-175033 (1986) — Droplet Generation in High Vacuum',
+    'sec10.prim4': 'Mattick & Hertzberg (Acta Astronautica, 1982) — Liquid Droplet Radiators for Heat Rejection in Space',
+    'sec10.prim5': 'Journal of Spacecraft and Rockets (2024) — Re-evaluating Thermal Management for Megawatt Orbiting Compute',
+    'sec10.mktTitle': 'MARKET ANALYSIS',
+    'sec10.mkt1': 'Reports on orbital data demand and AI constellation requirements in LEO',
+    'sec10.counterTitle': 'COUNTER-ARGUMENT & REBUTTAL',
+    'sec10.counterBody': 'Independent analyses exist suggesting heat rejection is not the bottleneck of orbital computing. We disagree, and the reason is the power scale considered. Below hundreds of kilowatts solar panel area dominates; above megawatts with modular replication, radiator mass becomes the critical bottleneck.',
+
+    // 11 — Contato e rodapé
+    'sec11.num': '11 —',
+    'sec11.title': 'Contact.',
+    'sec11.emailLabel': 'TECHNICAL CORRESPONDENCE',
+    'sec11.emailValue': 'contato@spes.space',
+    'sec11.locationLabel': 'HQ AND COORDINATES',
+    'sec11.locationValue': 'Campinas, SP — Brazil · 22°54\'S 47°03\'W',
+    'sec11.countdownLabel': 'COUNTDOWN (NEXT MILESTONE: DEC 2026)',
+    'sec11.disclaimer': 'Technical values on this website are engineering model parameters and development targets, not guaranteed performance or commercial products.',
+    'sec11.copyright': '© 2026 SPES SPACE SYSTEMS ENGINEERING SOLUTIONS. ALL RIGHTS RESERVED.'
+  }
+};
 
 interface I18nContextType {
   lang: Language;
@@ -10,427 +441,25 @@ interface I18nContextType {
   t: (key: string) => string;
 }
 
-const translations: Record<Language, Record<string, string>> = {
-  pt: {
-    // Nav
-    'nav.missao': 'Missão',
-    'nav.tecnologia': 'Tecnologia',
-    'nav.problemas': 'Problemas',
-    'nav.leitura': 'Leitura',
-    'nav.contato': 'Contato',
-
-    // StickyFooter
-    'sticky.status': 'STATUS: FASE DE LITERATURA',
-    'sticky.milestone': 'PRÓXIMO MARCO — REVISÃO PUBLICADA',
-
-    // Hero
-    'hero.eyebrow': 'AETHER — REJEIÇÃO TÉRMICA ORBITAL',
-    'hero.h1Line1': 'Calor,',
-    'hero.h1Line2': 'sem radiador.',
-    'hero.body':
-      'Uma cortina de gotículas de 100 micrômetros irradia calor no vácuo com até sete vezes menos massa que painéis sólidos. A NASA arquivou a ideia em 1990 por limites de fabricação que não existem mais.',
-    'hero.ctaPrimary': 'Ler os problemas em aberto',
-    'hero.ctaSecondary': 'Procuramos um engenheiro térmico',
-    'hero.backedBy': 'APOIADO POR',
-
-    // DataBar
-    'data.estagioLabel': 'Estágio',
-    'data.estagioValue': 'Literatura',
-    'data.inicioLabel': 'Início',
-    'data.inicioValue': '2026',
-    'data.baseLabel': 'Base',
-    'data.baseValue': 'Brasil',
-    'data.focoLabel': 'Foco',
-    'data.focoValue': 'Coleta de gotículas',
-    'data.vantagemLabel': 'Vantagem de massa',
-    'data.vantagemValue': '6,4×',
-    'data.issLabel': 'Referência ISS',
-    'data.issValue': '70 W/kg',
-    'data.alvoLabel': 'Alvo gotículas',
-    'data.alvoValue': '450 W/kg',
-    'data.arquivadoLabel': 'Arquivado em',
-    'data.arquivadoValue': '1990',
-
-    // ImageStrip
-    'strip.img1': '01 — Radiador de ISS em teste de vácuo · NASA Lewis',
-    'strip.img2': '02 — Câmara de vácuo térmico · NASA Lewis Facility',
-    'strip.img3': '03 — Cápsula de ensaio de microgravidade · Zero Gravity Facility',
-    'strip.img4': '04 — Bocal gerador de gotículas MEMS · Ensaio de laboratório',
-    'strip.img5': '05 — Carga térmica com manta MLI · NASA NTRS',
-    'strip.img6': '06 — Mecanismo de desdobramento · Ensaio em solo',
-
-    // WhyNow
-    'whynow.eyebrow': 'POR QUE AGORA',
-    'whynow.h2Line1': 'A restrição',
-    'whynow.h2Line2': 'acabou de voltar.',
-    'whynow.body':
-      'A SpaceX protocolou pedido para até um milhão de satélites de data center. A Google prepara protótipos do Suncatcher. A Starcloud operou uma GPU em órbita. A ESA mira cinquenta quilowatts de prova de conceito em 2031 e um gigawatt em 2050. Acima de dez megawatts, a massa de radiador passa a dominar a espaçonave.',
-    'whynow.stat1Value': '10 MW',
-    'whynow.stat1Label': 'escala em que a massa de radiador passa a dominar',
-    'whynow.stat2Value': '1 em 10⁸',
-    'whynow.stat2Label': 'perda de gotícula admissível para trinta anos de operação',
-
-    // Diagram
-    'diagram.eyebrow': 'COMPARAÇÃO DE MASSA — MESMO CALOR REJEITADO (PADRONIZADO EM W/kg)',
-    'diagram.badge': '6,4× MAIS LEVE',
-    'diagram.leftTitle': 'PAINEL SÓLIDO CONVENCIONAL',
-    'diagram.leftStat': 'ISS — 70 W/kg',
-    'diagram.leftSub': '(equiv. 14,3 kg/kW)',
-    'diagram.leftNote': 'nota: tubulação, estrutura, fluido, blindagem contra micrometeoroides',
-    'diagram.rightTitle': 'CORTINA DE GOTÍCULAS (LDR)',
-    'diagram.rightStat': 'gotículas — até 450 W/kg',
-    'diagram.rightSub': '(6,4× mais leve que ISS)',
-    'diagram.generator': 'GERADOR',
-    'diagram.collector': 'COLETOR',
-    'diagram.rightNote': 'nota: sem painel, sem tubulação na área radiante',
-    'diagram.leg1': '// Unidade W/kg: indica watt de calor rejeitado por quilo de massa do sistema — quanto maior o valor, mais leve e eficiente é a arquitetura.',
-    'diagram.leg2': '// Comparação de literatura: Painel sólido ISS = 70 W/kg (1×, equiv. 14,3 kg/kW) | Gotículas estudo 2025 = 450 W/kg (6,4×) | Gotículas magnéticas CubeSat = ~1.500 W/kg (21×, equiv. 0,67 kg/kW).',
-    'diagram.leg3': '// Condições de ensaio e temperatura de rejeição diferem entre estudos. Valores apresentados como referência de literatura.',
-
-    // ProblemStatement
-    'problem.eyebrow': 'O PROBLEMA',
-    'problem.h2Line1': 'No vácuo',
-    'problem.h2Line2': 'só existe radiação.',
-    'problem.body':
-      'Na Terra, o calor sai por convecção. No vácuo não há meio. A única saída é a radiação térmica, governada pela quarta potência da temperatura absoluta da superfície. Painéis sólidos resolvem isso até cerca de cem quilowatts. Acima disso, a massa de painel, tubulação e estrutura cresce mais rápido que o calor rejeitado.',
-    'problem.note':
-      '// Abaixo de 10 MW, análises independentes indicam que o painel solar, e não o radiador, domina a área da espaçonave. Não trabalhamos nessa faixa.',
-
-    // Architecture
-    'arch.eyebrow': 'ARQUITETURA',
-    'arch.h2Line1': 'Quatro estágios,',
-    'arch.h2Line2': 'nenhum painel.',
-    'arch.st1Title': 'GERAR',
-    'arch.st1Body': 'Um gerador forma bilhões de gotículas por quebra de jato de Rayleigh, com estímulo periódico. Diâmetros entre 50 e 500 micrômetros.',
-    'arch.st1Detail': 'até 250 mil gotículas por segundo por orifício. Escala de megawatt exige da ordem de 10⁶ orifícios.',
-    'arch.st2Title': 'IRRADIAR',
-    'arch.st2Body': 'A cortina atravessa o vácuo e irradia. A área radiante é a soma da superfície de trilhões de esferas submilimétricas, que ocupam volume mínimo quando condensadas.',
-    'arch.st2Detail': 'percurso típico de cem metros. A profundidade óptica da cortina governa a emitância do conjunto.',
-    'arch.st3Title': 'COLETAR',
-    'arch.st3Body': 'Um coletor captura as gotículas e desenvolve pressão suficiente para bombear o fluido de volta. Configurações estudadas: coletor linear e coletor centrífugo com captação tipo tubo de Pitot.',
-    'arch.st3Detail': 'precisa capturar essencialmente tudo. Perder um fluxo entre 10⁵ custa, em duas semanas, massa equivalente a toda a cortina.',
-    'arch.st4Title': 'RETORNAR',
-    'arch.st4Body': 'O fluido volta ao trocador de calor e recomeça o ciclo.',
-    'arch.st4Detail': 'a linha de retorno é ponto único de falha e precisa de proteção contra micrometeoroides, o que a torna massiva.',
-
-    // TechnicalPillars
-    'pillars.eyebrow': 'O QUE ISSO EXIGE',
-    'pillars.h2Line1': 'As partes difíceis,',
-    'pillars.h2Line2': 'declaradas.',
-    'pillars.body': 'Listamos os obstáculos porque subestimá-los é como projetos falham.',
-    'pillars.p1Title': 'Coleta de gotículas',
-    'pillars.p1Body': 'O mecanismo dominante de perda não é ricochete. São gotículas secundárias desprendidas das cristas de ondas que se formam no filme líquido do coletor. Caracterizado pela NASA em 1987. Não resolvido.',
-    'pillars.p1Diff': 'Severa',
-    'pillars.p2Title': 'Fabricação dos orifícios',
-    'pillars.p2Body': 'Escala de megawatt exige da ordem de 10⁶ orifícios, com mira melhor que 10 mrad. Em 1987 isso significava dois anos de furação mecânica contínua.',
-    'pillars.p2Diff': 'Transformada desde 1990',
-    'pillars.p3Title': 'Perda de fluido e contaminação',
-    'pillars.p3Body': 'Gotículas perdidas são massa perdida e contaminam painéis solares, ópticas e sensores. Requisito: menos de uma perda em 10⁸.',
-    'pillars.p3Diff': 'Severa',
-    'pillars.p4Title': 'Estabilidade e apontamento da cortina',
-    'pillars.p4Body': 'Manter alinhamento entre gerador e coletor ao longo de dezenas de metros, sob manobra e dilatação térmica.',
-    'pillars.p4Diff': 'Alta',
-    'pillars.diffLabel': 'DIFICULDADE:',
-
-    // Thesis
-    'thesis.eyebrow': 'A TESE',
-    'thesis.h2Line1': 'Arquivado por fabricação,',
-    'thesis.h2Line2': 'não por física.',
-    'thesis.th1': 'BARREIRA EM 1987',
-    'thesis.th2': 'SITUAÇÃO EM 2026',
-    'thesis.r1b1987': '10⁶ orifícios = 2 anos de furação',
-    'thesis.r1s2026': 'MEMS produz milhares de bocais por pastilha, precisão sub-mrad',
-    'thesis.r2b1987': 'Mira limitada a ~3 mrad',
-    'thesis.r2s2026': 'Cabeças de impressão superam',
-    'thesis.r3b1987': 'Coletor magnético inviável pela massa dos eletroímãs',
-    'thesis.r3s2026': 'Ímãs de terras raras e HTS mudam a conta. ~1.500 W/kg (equiv. 0,67 kg/kW) reportado em escala CubeSat',
-    'thesis.r4b1987': 'Diagnóstico visual limitado',
-    'thesis.r4s2026': 'Câmera rápida, PIV, sombrografia',
-    'thesis.r5b1987': 'Sem demanda',
-    'thesis.r5s2026': 'SpaceX, Google, Starcloud, ESA',
-    'thesis.closing': 'O radiador de gotículas não foi abandonado por impossibilidade física.',
-
-    // OpenProblems
-    'problems.eyebrow': 'PROBLEMAS EM ABERTO',
-    'problems.h2Line1': 'O que ainda não',
-    'problems.h2Line2': 'conseguimos resolver.',
-    'problems.body': 'Transparência é mais rápida que hype. Publicamos os problemas porque quem pode ajudar está lendo isto.',
-    'problems.betLabel': 'Nossa aposta:',
-    'problems.p1Title': 'Desprendimento de ondas no filme do coletor',
-    'problems.p1Para1': 'O filme formado na superfície do coletor desenvolve ondas, e das cristas escapam gotículas secundárias. A NASA identificou isso em 1987 como o mecanismo primário de perda e o caracterizou sem resolver.',
-    'problems.p1Para2': 'Um resultado paralelo mostrou que alvo em tela reduz respingo por fator de 500 em relação a placa plana. Nunca foi integrado a um coletor completo.',
-    'problems.p1Bet': 'alvo em tela combinado com injeção de filme auxiliar pode fechar o requisito de 1 em 10⁸. Caracterizável em bancada de vácuo, em gravidade normal, com câmera rápida. É o nosso primeiro experimento.',
-
-    'problems.p2Title': 'Molhamento da placa de orifícios',
-    'problems.p2Para1': 'Um filme líquido na face de saída desvia a trajetória do jato. Revestimentos antiaderentes falharam: aplicados antes da furação impedem orifícios de qualidade, aplicados depois entopem os orifícios.',
-    'problems.p2Bet': 'fabricação MEMS permite geometrias e tratamentos de superfície que não existiam em 1987. Não testado.',
-
-    'problems.p3Title': 'Coleta magnética, reavaliada',
-    'problems.p3Para1': 'Ferrofluido com ímã de cobalto-samário suprimiu completamente o respingo em ensaios dos anos 1980. A configuração foi abandonada porque os eletroímãs supercondutores tornavam o conjunto mais pesado.',
-    'problems.p3Bet': 'ímãs de terras raras modernos mudam essa conta. Um estudo recente reporta ~1.500 W/kg (equiv. 0,67 kg/kW) em escala CubeSat. Reproduzir com ímãs permanentes é barato e ainda não foi feito no nosso escopo.',
-
-    'problems.p4Title': 'Instrumentação de gotículas secundárias',
-    'problems.p4Para1': 'No coletor centrífugo, a detecção de gotículas secundárias não foi possível visualmente em 1987 e permanece a investigar. As ondas superficiais previstas por análise não puderam ser comparadas com experimento porque o filme não molhou uniformemente a superfície.',
-    'problems.p4Bet': 'sombrografia digital e câmera de alta velocidade resolvem o problema de medição. Este é o menor risco técnico da lista.',
-
-    'problems.p5Title': 'Radiador de lâmina líquida',
-    'problems.p5Para1': 'Uma variante substitui trilhões de gotículas por lâminas contínuas, eliminando a necessidade de milhões de orifícios. Viabilidade preliminar foi demonstrada, e a literatura registra que mais pesquisa é necessária. A linha foi praticamente abandonada.',
-    'problems.p5Bet': 'se a fabricação de orifícios deixou de ser o gargalo, a vantagem principal da lâmina desaparece. Precisamos verificar isso antes de escolher a arquitetura. Ainda não verificamos.',
-    'problems.cta': 'Acha que consegue resolver algum destes? → Contato',
-
-    // Role / Team
-    'role.eyebrow': 'TIME',
-    'role.h2Line1': 'Procuramos',
-    'role.h2Line2': 'uma pessoa.',
-    'role.body': 'Um engenheiro ou pesquisador de transferência de calor, escoamento bifásico ou controle térmico espacial. Como parceiro fundador, não como contratado.',
-    'role.haveHeader': 'O QUE TEMOS',
-    'role.haveItem1': 'Revisão da literatura primária em andamento',
-    'role.haveItem2': 'Lacuna técnica identificada e delimitada',
-    'role.haveItem3': 'Dedicação integral',
-    'role.haveItem4': 'Rota mapeada de fomento não dilutivo',
-    'role.dontHeader': 'O QUE NÃO TEMOS',
-    'role.dontItem1': 'Capital',
-    'role.dontItem2': 'Laboratório próprio',
-    'role.dontItem3': 'Protótipo',
-    'role.dontItem4': 'Qualquer resultado experimental',
-    'role.cta': 'Diga onde o raciocínio está errado',
-
-    // Reading
-    'reading.eyebrow': 'LEITURA',
-    'reading.h2Line1': 'As fontes,',
-    'reading.h2Line2': 'abertas.',
-    'reading.body': 'Não temos publicações próprias. Estas são as fontes primárias em que o trabalho se apoia. Quase todas são de domínio público.',
-
-    // Footer
-    'footer.eyebrow': 'CONTATO',
-    'footer.loc': '23°33\'01"S 46°38\'02"W — SÃO PAULO · BRASIL',
-    'footer.copy': 'AETHER — Rejeição térmica orbital. Est. 2026.',
-    'footer.tag': 'Programa de pesquisa independente',
-    'footer.disclaimer': '// Valores citados são de literatura publicada, obtidos em condições de ensaio que diferem entre si. Não são desempenho garantido nem resultados próprios. Este é um programa de pesquisa em estágio inicial, sem produto.',
-  },
-
-  en: {
-    // Nav
-    'nav.missao': 'Mission',
-    'nav.tecnologia': 'Technology',
-    'nav.problemas': 'Problems',
-    'nav.leitura': 'Reading',
-    'nav.contato': 'Contact',
-
-    // StickyFooter
-    'sticky.status': 'STATUS: LITERATURE PHASE',
-    'sticky.milestone': 'NEXT MILESTONE — PUBLISHED REVIEW',
-
-    // Hero
-    'hero.eyebrow': 'AETHER — ORBITAL THERMAL REJECTION',
-    'hero.h1Line1': 'Heat,',
-    'hero.h1Line2': 'without a radiator.',
-    'hero.body':
-      'A 100-micrometer liquid droplet curtain radiates heat in vacuum with up to seven times less mass than solid panels. NASA archived the idea in 1990 due to manufacturing limits that no longer exist.',
-    'hero.ctaPrimary': 'Read open problems',
-    'hero.ctaSecondary': 'Looking for a thermal engineer',
-    'hero.backedBy': 'BACKED BY',
-
-    // DataBar
-    'data.estagioLabel': 'Stage',
-    'data.estagioValue': 'Literature',
-    'data.inicioLabel': 'Start',
-    'data.inicioValue': '2026',
-    'data.baseLabel': 'Base',
-    'data.baseValue': 'Brazil',
-    'data.focoLabel': 'Focus',
-    'data.focoValue': 'Droplet collection',
-    'data.vantagemLabel': 'Mass advantage',
-    'data.vantagemValue': '6.4×',
-    'data.issLabel': 'ISS Benchmark',
-    'data.issValue': '70 W/kg',
-    'data.alvoLabel': 'Droplet Target',
-    'data.alvoValue': '450 W/kg',
-    'data.arquivadoLabel': 'Archived in',
-    'data.arquivadoValue': '1990',
-
-    // ImageStrip
-    'strip.img1': '01 — ISS Radiator panel under vacuum test · NASA Lewis',
-    'strip.img2': '02 — Thermal vacuum chamber · NASA Lewis Facility',
-    'strip.img3': '03 — Microgravity test capsule · Zero Gravity Facility',
-    'strip.img4': '04 — MEMS droplet generator nozzle · Lab testing',
-    'strip.img5': '05 — Thermal payload with MLI blanket · NASA NTRS',
-    'strip.img6': '06 — Deployment mechanism · Ground testing',
-
-    // WhyNow
-    'whynow.eyebrow': 'WHY NOW',
-    'whynow.h2Line1': 'The constraint',
-    'whynow.h2Line2': 'just returned.',
-    'whynow.body':
-      'SpaceX filed for up to one million data center satellites. Google is preparing Suncatcher prototypes. Starcloud operated a GPU in orbit. ESA aims for fifty kilowatts proof-of-concept in 2031 and one gigawatt by 2050. Above ten megawatts, radiator mass dominates the spacecraft.',
-    'whynow.stat1Value': '10 MW',
-    'whynow.stat1Label': 'scale at which radiator mass dominates',
-    'whynow.stat2Value': '1 in 10⁸',
-    'whynow.stat2Label': 'allowable droplet loss for thirty years of operation',
-
-    // Diagram
-    'diagram.eyebrow': 'MASS COMPARISON — SAME HEAT REJECTED (STANDARDIZED IN W/kg)',
-    'diagram.badge': '6.4× LIGHTER',
-    'diagram.leftTitle': 'CONVENTIONAL SOLID PANEL',
-    'diagram.leftStat': 'ISS — 70 W/kg',
-    'diagram.leftSub': '(equiv. 14.3 kg/kW)',
-    'diagram.leftNote': 'note: piping, structure, fluid, micrometeoroid shielding',
-    'diagram.rightTitle': 'LIQUID DROPLET CURTAIN (LDR)',
-    'diagram.rightStat': 'droplets — up to 450 W/kg',
-    'diagram.rightSub': '(6.4× lighter than ISS)',
-    'diagram.generator': 'GENERATOR',
-    'diagram.collector': 'COLLECTOR',
-    'diagram.rightNote': 'note: no panel, no piping in radiating area',
-    'diagram.leg1': '// W/kg unit: indicates watts of rejected heat per kilogram of system mass — higher value means lighter and more efficient architecture.',
-    'diagram.leg2': '// Literature comparison: ISS Solid panel = 70 W/kg (1×, equiv. 14.3 kg/kW) | Droplets 2025 study = 450 W/kg (6.4×) | Magnetic droplets CubeSat = ~1,500 W/kg (21×, equiv. 0.67 kg/kW).',
-    'diagram.leg3': '// Test conditions and rejection temperatures differ across studies. Values presented as literature reference.',
-
-    // ProblemStatement
-    'problem.eyebrow': 'THE PROBLEM',
-    'problem.h2Line1': 'In vacuum',
-    'problem.h2Line2': 'there is only radiation.',
-    'problem.body':
-      'On Earth, heat leaves by convection. In vacuum there is no medium. The only way out is thermal radiation, governed by the fourth power of absolute surface temperature. Solid panels solve this up to around one hundred kilowatts. Above that, panel, piping, and structural mass grows faster than rejected heat.',
-    'problem.note':
-      '// Below 10 MW, independent analyses indicate that solar arrays, not radiators, dominate spacecraft area. We do not work in that regime.',
-
-    // Architecture
-    'arch.eyebrow': 'ARCHITECTURE',
-    'arch.h2Line1': 'Four stages,',
-    'arch.h2Line2': 'zero panels.',
-    'arch.st1Title': 'GENERATE',
-    'arch.st1Body': 'A generator produces billions of micro-droplets via Rayleigh jet breakup with periodic perturbation. Diameters between 50 and 500 micrometers.',
-    'arch.st1Detail': 'up to 250,000 droplets per second per orifice. Megawatt scale requires on the order of 10⁶ orifices.',
-    'arch.st2Title': 'RADIATE',
-    'arch.st2Body': 'The curtain travels across vacuum and radiates heat. Radiating area is the sum of trillions of submillimeter spheres, occupying minimal volume when condensed.',
-    'arch.st2Detail': 'typical path length of one hundred meters. Curtain optical depth dictates overall emissivity.',
-    'arch.st3Title': 'COLLECT',
-    'arch.st3Body': 'A collector captures droplets and develops sufficient hydraulic pressure to pump liquid back. Studied configurations: linear collector and centrifugal collector with Pitot-type scoop.',
-    'arch.st3Detail': 'must capture essentially everything. Losing 1 in 10⁵ flow costs, in two weeks, mass equal to the entire liquid inventory.',
-    'arch.st4Title': 'RETURN',
-    'arch.st4Body': 'Fluid returns to the heat exchanger and restarts the cycle.',
-    'arch.st4Detail': 'the return line is a single point of failure and requires micrometeoroid protection, making it heavy.',
-
-    // TechnicalPillars
-    'pillars.eyebrow': 'WHAT THIS DEMANDS',
-    'pillars.h2Line1': 'The hard parts,',
-    'pillars.h2Line2': 'stated clearly.',
-    'pillars.body': 'We list obstacles because underestimating them is how projects fail.',
-    'pillars.p1Title': 'Droplet collection',
-    'pillars.p1Body': 'The dominant loss mechanism is not splashing. It is secondary droplets shed from wave crests forming on the collector liquid film. Characterized by NASA in 1987. Unresolved.',
-    'pillars.p1Diff': 'Severe',
-    'pillars.p2Title': 'Orifice manufacturing',
-    'pillars.p2Body': 'Megawatt scale requires ~10⁶ orifices with aiming better than 10 mrad. In 1987 that meant two years of continuous mechanical drilling.',
-    'pillars.p2Diff': 'Transformed since 1990',
-    'pillars.p3Title': 'Fluid loss and contamination',
-    'pillars.p3Body': 'Lost droplets mean lost mass and contamination of solar arrays, optics, and sensors. Requirement: less than 1 loss in 10⁸.',
-    'pillars.p3Diff': 'Severe',
-    'pillars.p4Title': 'Curtain stability and aiming',
-    'pillars.p4Body': 'Maintaining alignment between generator and collector across tens of meters under maneuvers and thermal expansion.',
-    'pillars.p4Diff': 'High',
-    'pillars.diffLabel': 'DIFFICULTY:',
-
-    // Thesis
-    'thesis.eyebrow': 'THE THESIS',
-    'thesis.h2Line1': 'Archived by manufacturing,',
-    'thesis.h2Line2': 'not by physics.',
-    'thesis.th1': '1987 BARRIER',
-    'thesis.th2': '2026 STATUS',
-    'thesis.r1b1987': '10⁶ orifices = 2 years of drilling',
-    'thesis.r1s2026': 'MEMS produces thousands of nozzles per wafer, sub-mrad precision',
-    'thesis.r2b1987': 'Aiming limited to ~3 mrad',
-    'thesis.r2s2026': 'Modern printhead techniques surpass this',
-    'thesis.r3b1987': 'Magnetic collector unviable due to electromagnet mass',
-    'thesis.r3s2026': 'Rare-earth magnets and HTS change the equation. ~1,500 W/kg (equiv. 0.67 kg/kW) reported at CubeSat scale',
-    'thesis.r4b1987': 'Limited optical diagnostics',
-    'thesis.r4s2026': 'High-speed video, PIV, shadowgraphy',
-    'thesis.r5b1987': 'No commercial demand',
-    'thesis.r5s2026': 'SpaceX, Google, Starcloud, ESA',
-    'thesis.closing': 'The liquid droplet radiator was not abandoned due to physical impossibility.',
-
-    // OpenProblems
-    'problems.eyebrow': 'OPEN PROBLEMS',
-    'problems.h2Line1': 'What we cannot',
-    'problems.h2Line2': 'yet solve.',
-    'problems.body': 'Transparency is faster than hype. We publish our open problems because the people who can help are reading this.',
-    'problems.betLabel': 'Our bet:',
-    'problems.p1Title': 'Wave stripping on collector film',
-    'problems.p1Para1': 'The liquid film on the collector surface develops waves, shedding secondary droplets from wave crests. NASA identified this in 1987 as the primary loss mechanism and characterized it without solving it.',
-    'problems.p1Para2': 'A parallel result showed a wire-mesh screen target reduces splashing by 500× compared to a flat plate. It was never integrated into a full collector.',
-    'problems.p1Bet': 'screen target combined with auxiliary film injection can satisfy the 1 in 10⁸ loss requirement. Characterizable in a vacuum bench test under normal gravity with high-speed video. This is our first experiment.',
-
-    'problems.p2Title': 'Orifice plate wetting',
-    'problems.p2Para1': 'A liquid film on the exit face deflects stream trajectory. Non-wetting coatings failed: applied before drilling they prevent high-quality orifices; applied after they clog holes.',
-    'problems.p2Bet': 'MEMS fabrication enables surface geometries and treatments that did not exist in 1987. Untested.',
-
-    'problems.p3Title': 'Magnetic collection, reassessed',
-    'problems.p3Para1': 'Ferrofluid with samarium-cobalt magnets completely suppressed splashing in 1980s tests. The concept was shelved because superconducting electromagnets made the assembly heavy.',
-    'problems.p3Bet': 'modern rare-earth permanent magnets change the math. A recent study reports ~1,500 W/kg (equiv. 0.67 kg/kW) at CubeSat scale. Reproducing with permanent magnets is inexpensive and not yet done in our scope.',
-
-    'problems.p4Title': 'Secondary droplet instrumentation',
-    'problems.p4Para1': 'In centrifugal collectors, visual detection of secondary droplets was impossible in 1987 and remains to be verified. Analytically predicted surface waves could not be compared to experiment due to non-uniform wetting.',
-    'problems.p4Bet': 'digital shadowgraphy and high-speed optics solve the measurement challenge. This is the lowest technical risk on the list.',
-
-    'problems.p5Title': 'Liquid sheet radiator',
-    'problems.p5Para1': 'A variant replaces trillions of droplets with continuous liquid sheets, eliminating millions of orifices. Preliminary viability was proven, but research stalled and the line was largely abandoned.',
-    'problems.p5Bet': 'if orifice fabrication is no longer the bottleneck, the key advantage of liquid sheets disappears. We must verify this before locking in architecture. We have not yet verified it.',
-    'problems.cta': 'Think you can solve one of these? → Contact',
-
-    // Role / Team
-    'role.eyebrow': 'TEAM',
-    'role.h2Line1': 'Looking for',
-    'role.h2Line2': 'one person.',
-    'role.body': 'A senior heat transfer, two-phase flow, or space thermal control engineer/researcher. As a founding partner, not an employee.',
-    'role.haveHeader': 'WHAT WE HAVE',
-    'role.haveItem1': 'Ongoing primary literature review',
-    'role.haveItem2': 'Identified and bounded technical gap',
-    'role.haveItem3': 'Full-time commercial commitment',
-    'role.haveItem4': 'Mapped route to non-dilutive funding',
-    'role.dontHeader': "WHAT WE DON'T HAVE",
-    'role.dontItem1': 'Capital',
-    'role.dontItem2': 'Own laboratory',
-    'role.dontItem3': 'Prototype',
-    'role.dontItem4': 'Any experimental results',
-    'role.cta': 'Tell us where the reasoning is wrong',
-
-    // Reading
-    'reading.eyebrow': 'READING',
-    'reading.h2Line1': 'Primary sources,',
-    'reading.h2Line2': 'open.',
-    'reading.body': 'We have no publications of our own yet. These are the primary literature sources backing our work. Almost all are public domain.',
-
-    // Footer
-    'footer.eyebrow': 'CONTACT',
-    'footer.loc': '23°33\'01"S 46°38\'02"W — SÃO PAULO · BRAZIL',
-    'footer.copy': 'AETHER — Orbital thermal rejection. Est. 2026.',
-    'footer.tag': 'Independent research program',
-    'footer.disclaimer': '// Cited values are from published literature under varying test conditions. They do not represent guaranteed performance or proprietary experimental results. This is an early-stage research program without a commercial product.',
-  },
-};
-
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>('pt');
 
   useEffect(() => {
-    const saved = localStorage.getItem('aether_lang') as Language | null;
-    if (saved && (saved === 'en' || saved === 'pt')) {
+    const saved = localStorage.getItem('spes_lang') as Language;
+    if (saved === 'pt' || saved === 'en') {
       setLangState(saved);
-    } else if (typeof navigator !== 'undefined' && navigator.language?.toLowerCase().startsWith('en')) {
-      setLangState('en');
     }
   }, []);
 
   const setLang = (newLang: Language) => {
     setLangState(newLang);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('aether_lang', newLang);
-    }
+    localStorage.setItem('spes_lang', newLang);
   };
 
   const t = (key: string): string => {
-    return translations[lang]?.[key] || translations['pt']?.[key] || key;
+    return dictionary[lang]?.[key] || dictionary['pt']?.[key] || key;
   };
 
   return (

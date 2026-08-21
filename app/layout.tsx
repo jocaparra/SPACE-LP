@@ -1,23 +1,18 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Space_Grotesk } from 'next/font/google';
 import { I18nProvider } from '../lib/i18n';
 import './globals.css';
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-sans',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-mono',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'AETHER — Rejeição Térmica Orbital',
-  description: 'Programa de pesquisa em rejeição térmica orbital por cortina de gotículas (Liquid Droplet Radiator).',
+  title: 'SPES — Space Systems Engineering Solutions',
+  description: 'A camada térmica da computação orbital. Pesquisa e desenvolvimento em rejeição térmica espacial.',
 };
 
 export default function RootLayout({
@@ -26,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#0E1013] text-[#F3F1EC] font-sans antialiased selection:bg-[#D6C3A3] selection:text-[#0E1013]">
+    <html lang="pt" className={spaceGrotesk.variable}>
+      <body className="bg-[#262829] text-[#F0F0EB] font-sans antialiased selection:bg-[#FF3B20] selection:text-[#F0F0EB]">
         <I18nProvider>{children}</I18nProvider>
       </body>
     </html>

@@ -1,111 +1,93 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0E1013;
-  --color-surface: #171A1F;
-  --color-white: #F3F1EC;
-  --color-gray: #8C939D;
-  --color-titanium: #C7CDD6;
-  --color-champagne: #D6C3A3;
-  --color-severe: #A32D2D;
+  --color-bg-main: #262829;
+  --color-bg-alt: #0A0A0A;
+  --color-text-main: #F0F0EB;
+  --color-text-sec: #858C92;
+  --color-accent-primary: #FF3B20;
+  --color-accent-sec: #FF8266;
 }
 
 :root {
-  --bg: #0E1013;
-  --surface: #171A1F;
-  --white: #F3F1EC;
-  --gray: #8C939D;
-  --titanium: #C7CDD6;
-  --champagne: #D6C3A3;
-  --severe: #A32D2D;
+  --bg-main: #262829;
+  --bg-alt: #0A0A0A;
+  --text-main: #F0F0EB;
+  --text-sec: #858C92;
+  --accent-primary: #FF3B20;
+  --accent-sec: #FF8266;
 }
 
 html {
-  background-color: #0E1013;
-  color: #F3F1EC;
+  background-color: #262829;
+  color: #F0F0EB;
+  font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, -apple-system, sans-serif;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background-color: #0E1013;
-  color: #8C939D;
+  background-color: #262829;
+  color: #858C92;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, -apple-system, sans-serif;
 }
 
-.font-mono {
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+/* Force Space Grotesk across all elements */
+* {
+  font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, -apple-system, sans-serif;
 }
 
-.font-sans {
-  font-family: var(--font-sans), 'Inter', sans-serif;
+.tnum {
+  font-feature-settings: "tnum" 1, "zero" 1;
+  font-variant-numeric: tabular-nums;
 }
 
-.mono-eyebrow {
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+.hairline {
+  border-color: rgba(240, 240, 235, 0.1);
+}
+
+.section-num {
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #C7CDD6;
-  margin-bottom: 24px;
+  letter-spacing: 0.1em;
+  color: #858C92;
+  margin-bottom: 12px;
   display: block;
+  font-feature-settings: "tnum" 1;
 }
 
-.hero-h1 {
-  font-family: var(--font-sans), 'Inter', sans-serif;
-  font-size: clamp(52px, 8vw, 112px);
-  font-weight: 300;
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  color: #F3F1EC;
-  margin-bottom: 28px;
+.hero-display {
+  font-size: clamp(40px, 6vw, 84px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: #F0F0EB;
 }
 
 .section-h2 {
-  font-family: var(--font-sans), 'Inter', sans-serif;
-  font-size: clamp(36px, 5vw, 72px);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin-bottom: 32px;
-}
-
-.body-text {
-  font-size: 17px;
-  line-height: 1.7;
-  color: #8C939D;
-  max-width: 68ch;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #F0F0EB;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0E1013;
+  background: #0A0A0A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #171A1F;
-  border-radius: 3px;
+  background: #262829;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C7CDD6;
+  background: #FF3B20;
 }
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-}
-
