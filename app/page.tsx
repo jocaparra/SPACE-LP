@@ -1,5 +1,4 @@
 import Header from '../components/Header';
-import StatusBar from '../components/StatusBar';
 import SectionHero from '../components/SectionHero';
 import ImageMarquee from '../components/ImageMarquee';
 import SectionConstraint from '../components/SectionConstraint';
@@ -18,7 +17,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#262829] text-[#F0F0EB] font-sans antialiased selection:bg-[#FF3B20] selection:text-[#F0F0EB]">
       <Header />
-      <StatusBar />
       <SectionHero />
       <ImageMarquee />
       <SectionConstraint />
