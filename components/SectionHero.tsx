@@ -12,7 +12,7 @@ export default function SectionHero() {
   return (
     <section id="sec-00" className="relative bg-[#0A0A0A] border-b border-[#F0F0EB]/10 pt-20 pb-16 min-h-[calc(100vh-88px)] flex flex-col justify-between overflow-hidden">
       {/* Background Image Rail with Gradient Mask (Hydrexx Style) */}
-      <div className="absolute right-0 top-0 w-full lg:w-3/5 h-full pointer-events-none opacity-40 lg:opacity-60">
+      <div className="absolute right-0 top-0 w-full lg:w-3/5 h-full pointer-events-none opacity-30 lg:opacity-50">
         <Image
           src="/hero_radiator.jpg"
           alt="Space station thermal radiator undergoing vacuum testing"
@@ -44,9 +44,38 @@ export default function SectionHero() {
           </h1>
 
           {/* Support Paragraph */}
-          <p className="text-lg md:text-xl text-[#858C92] leading-relaxed max-w-[64ch]">
+          <p className="text-lg md:text-xl text-[#858C92] leading-relaxed max-w-[64ch] mb-12">
             {t('hero.body')}
           </p>
+
+          {/* APOIADO POR / BACKED BY Logos Row */}
+          <div className="pt-8 border-t border-[#F0F0EB]/10 max-w-[800px]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#858C92] block mb-6 tnum">
+              {t('hero.backedBy')}
+            </span>
+            <div className="flex flex-wrap items-center gap-8 md:gap-12">
+              <img
+                src="/logo_nasa_v2.png"
+                alt="NASA"
+                className="h-7 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-0 invert"
+              />
+              <img
+                src="/logo_nvidia_clean.png"
+                alt="NVIDIA Inception Program"
+                className="h-6 md:h-7 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+              <img
+                src="/logo_aws_clean.png"
+                alt="AWS Startup Programs"
+                className="h-7 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+              <img
+                src="/logo_intel_clean.png"
+                alt="Intel"
+                className="h-7 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
+          </div>
         </ScrollReveal>
       </div>
 
